@@ -25,13 +25,23 @@ export default function Hero() {
 
   return (
     <>
-      {/* FONDO PRINCIPAL CON IMAGEN OPTIMIZADA Y CAPA DE OSCURECIMIENTO */}
-      <div
-        className="fixed inset-0 w-full h-screen overflow-hidden -z-10 pointer-events-none transform-gpu bg-cover bg-center"
-        style={{ backgroundImage: `url('/mapameztitlan.webp')` }}
-      >
-        {/* Capa oscura semitransparente para dar el tono elegante y hacer destacar el texto */}
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] pointer-events-none transform-gpu" />
+      {/* CONTENEDOR DE FONDO CON EL VIDEO DE LA CARPETA PUBLIC */}
+      <div className="fixed inset-0 w-full h-screen overflow-hidden -z-10 pointer-events-none transform-gpu bg-black">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          webkit-playsinline="true"
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover transform-gpu"
+        >
+          <source src="/fondo-video.mp4" type="video/mp4" />
+          Tu navegador no soporta videos HTML5.
+        </video>
+
+        {/* Capa de oscurecimiento elegante para que el texto resalte a la perfección */}
+        <div className="absolute inset-0 bg-black/40 pointer-events-none transform-gpu" />
       </div>
 
       <section
