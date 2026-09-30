@@ -26,7 +26,7 @@ export default function Hero() {
   return (
     <>
       <div className="fixed inset-0 w-full h-screen overflow-hidden -z-25 pointer-events-none transform-gpu bg-black">
-        {/* VÍDEO OPTIMIZADO PARA MÓVILES Y TABLETS CON ATRIBUTOS DE REPRODUCCIÓN FORZADA */}
+        {/* VÍDEO DE FONDO OPTIMIZADO PARA MÓVILES Y TABLETS */}
         <video
           autoPlay
           loop
@@ -35,8 +35,10 @@ export default function Hero() {
           webkit-playsinline="true"
           preload="auto"
           className="absolute inset-0 w-full h-full object-cover contrast-[1.25] saturate-[1.65] brightness-[1.02] filter transform-gpu will-change-transform scale-105"
-          src="/fondo-video.mp4"
-        />
+        >
+          <source src="/fondo-video.mp4" type="video/mp4" />
+          Tu navegador no soporta videos HTML5.
+        </video>
 
         <div className="absolute inset-0 bg-white/[0.02] mix-blend-overlay pointer-events-none transform-gpu" />
       </div>
