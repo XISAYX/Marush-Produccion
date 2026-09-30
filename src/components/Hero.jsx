@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Hero() {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
-  const videoRef = useRef(null);
 
   useEffect(() => {
     const handleLocationState = (e) => {
@@ -11,14 +10,6 @@ export default function Hero() {
     };
 
     window.addEventListener("locationModalState", handleLocationState);
-
-    // Forzar la reproducción en dispositivos móviles al montar el componente
-    if (videoRef.current) {
-      videoRef.current.play().catch((error) => {
-        console.log("Autoplay bloqueado por el navegador móvil:", error);
-      });
-    }
-
     return () => {
       window.removeEventListener("locationModalState", handleLocationState);
     };
@@ -35,15 +26,17 @@ export default function Hero() {
   return (
     <>
       <div className="fixed inset-0 w-full h-screen overflow-hidden -z-10 pointer-events-none transform-gpu bg-black">
-        {/* VÍDEO CON REFERENCIA DE REPRODUCCIÓN FORZADA PARA MÓVILES */}
+        {/* VÍDEO CON CARGA NATIVA Y EVENTO DE REPRODUCCIÓN AUTOMÁTICA */}
         <video
-          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
           webkit-playsinline="true"
           preload="auto"
+          onLoadedData={(e) => {
+            e.target.play().catch((err) => console.log("Play error:", err));
+          }}
           className="absolute inset-0 w-full h-full object-cover contrast-[1.25] saturate-[1.65] brightness-[1.02] filter transform-gpu will-change-transform scale-105"
         >
           <source src="/fondo-video.mp4" type="video/mp4" />
