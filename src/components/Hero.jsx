@@ -25,7 +25,7 @@ export default function Hero() {
 
   return (
     <>
-      {/* CONTENEDOR DE FONDO CON EL VIDEO DE LA CARPETA PUBLIC */}
+      {/* CONTENEDOR DE FONDO CON VIDEO CLOUDINARY */}
       <div className="fixed inset-0 w-full h-screen overflow-hidden -z-10 pointer-events-none transform-gpu bg-black">
         <video
           autoPlay
@@ -36,11 +36,14 @@ export default function Hero() {
           preload="auto"
           className="absolute inset-0 w-full h-full object-cover transform-gpu"
         >
-          <source src="/fondo-video.mp4" type="video/mp4" />
+          <source
+            src="https://res.cloudinary.com/s9lrwmoh/video/upload/v1790807993/fondo-video.mp4"
+            type="video/mp4"
+          />
           Tu navegador no soporta videos HTML5.
         </video>
 
-        {/* Capa de oscurecimiento elegante para que el texto resalte a la perfección */}
+        {/* Capa de oscurecimiento elegante para que el texto resalte */}
         <div className="absolute inset-0 bg-black/40 pointer-events-none transform-gpu" />
       </div>
 
