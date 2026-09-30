@@ -40,15 +40,15 @@ export default function ItemSection() {
   return (
     <section
       id="productos"
-      className="relative w-full py-20 px-4 sm:px-8 md:px-16 lg:px-20 z-10 bg-transparent transform-gpu flex flex-col items-center justify-center"
+      className="relative w-full py-16 px-4 sm:px-8 md:px-16 lg:px-20 z-10 bg-transparent transform-gpu flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* ENCABEZADO CENTRADO CON DESCRIPCIÓN EN COLOR NEGRO */}
+      {/* ENCABEZADO CENTRADO */}
       <motion.div
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: false, amount: 0.15 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="text-center max-w-2xl mx-auto mb-12 sm:mb-16 transform-gpu will-change-transform flex flex-col items-center"
+        className="text-center max-w-2xl mx-auto mb-10 sm:mb-16 transform-gpu will-change-transform flex flex-col items-center px-2"
       >
         <span
           className="text-[10px] uppercase tracking-[0.4em] font-black block mb-2"
@@ -56,18 +56,18 @@ export default function ItemSection() {
         >
           Colección Oficial
         </span>
-        <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+        <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
           Nuestros Productos
         </h2>
-        {/* DESCRIPCIÓN EN COLOR NEGRO */}
-        <p className="text-xs sm:text-sm text-black font-semibold mt-2 leading-relaxed max-w-xl text-center">
+        {/* DESCRIPCIÓN CORREGIDA A BLANCO/GRIS CLARO PARA VISIBILIDAD MÓVIL */}
+        <p className="text-xs sm:text-sm text-neutral-300 font-medium mt-3 leading-relaxed max-w-xl text-center px-2">
           Indumentaria textil diseñada para conectar con la naturaleza, honrando
           la biodiversidad de la Sierra y la Barranca.
         </p>
       </motion.div>
 
-      {/* CUADRÍCULA DE PRODUCTOS CENTRADA, ALINEADA Y RESPONSIVA */}
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 justify-items-center">
+      {/* CUADRÍCULA DE PRODUCTOS CENTRADA Y RESPONSIVA */}
+      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 justify-items-center">
         {productosList.map((producto, index) => (
           <motion.div
             key={producto.id}
@@ -79,15 +79,11 @@ export default function ItemSection() {
               delay: index * 0.1,
               ease: [0.16, 1, 0.3, 1],
             }}
-            whileHover={{ y: -6, transition: { duration: 0.2 } }}
-            className="rounded-[32px] p-6 sm:p-8 flex flex-col justify-between transform-gpu will-change-transform transition-all backdrop-blur-md w-full max-w-xl shadow-2xl"
-            style={{
-              backgroundColor: "rgba(255, 255, 255, 0.08)",
-              border: "1px solid rgba(255, 255, 255, 0.35)",
-            }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            className="rounded-[28px] sm:rounded-[32px] p-5 sm:p-8 flex flex-col justify-between transform-gpu will-change-transform transition-all backdrop-blur-md w-full max-w-xl shadow-2xl border border-white/20 bg-white/[0.06]"
           >
             {/* Contenedor interno del mockup */}
-            <div className="w-full h-72 sm:h-80 rounded-2xl overflow-hidden mb-6 bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/15">
+            <div className="w-full h-64 sm:h-80 rounded-2xl overflow-hidden mb-5 sm:mb-6 bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-1 sm:p-2 border border-white/15">
               <img
                 src={producto.imagen}
                 alt={producto.titulo}
@@ -99,25 +95,25 @@ export default function ItemSection() {
                   e.target.src = "/logo-marush.png";
                 }}
               />
-              <span className="absolute top-4 left-4 bg-black/50 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-white/20 z-10">
+              <span className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-black/60 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-white/20 z-10">
                 {producto.categoria}
               </span>
             </div>
 
-            {/* Información del producto con textos limpios y negros */}
+            {/* Información del producto con textos legibles en móvil */}
             <div className="text-left flex flex-col gap-2">
-              <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+              <h3 className="text-lg sm:text-2xl font-black text-white tracking-tight leading-snug">
                 {producto.titulo}
               </h3>
-              <p className="text-xs sm:text-sm text-black font-semibold leading-relaxed">
+              <p className="text-xs sm:text-sm text-neutral-300 font-normal leading-relaxed">
                 {producto.descripcion}
               </p>
             </div>
 
             {/* Pie de tarjeta con botón interactivo */}
-            <div className="mt-6 pt-4 border-t border-white/20 flex justify-between items-center flex-wrap gap-3">
+            <div className="mt-5 sm:mt-6 pt-4 border-t border-white/15 flex justify-between items-center flex-wrap gap-3">
               <span
-                className="text-[11px] font-extrabold uppercase tracking-widest"
+                className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest"
                 style={{ color: "#ff1a2e" }}
               >
                 Edición Limitada
@@ -126,7 +122,7 @@ export default function ItemSection() {
                 onClick={() =>
                   alert(`Consultar disponibilidad de: ${producto.titulo}`)
                 }
-                className="bg-white/10 hover:bg-white/25 text-black font-extrabold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition-all border border-white/40 cursor-pointer backdrop-blur-md shadow-sm"
+                className="bg-white/15 hover:bg-white/25 text-white font-extrabold px-4 sm:px-5 py-2 rounded-full text-[11px] sm:text-xs uppercase tracking-wider transition-all border border-white/30 cursor-pointer backdrop-blur-md shadow-sm active:scale-95"
               >
                 Ver Detalles
               </button>
