@@ -1,0 +1,82 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+
+export default function Hero() {
+  return (
+    <section className="relative h-screen w-full flex flex-col justify-center items-center text-center overflow-hidden">
+      {/* Video de fondo en bucle */}
+      <video 
+        autoPlay 
+        loop 
+        muted 
+        playsInline 
+        className="absolute inset-0 w-full h-full object-cover z-0"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260325_120549_0cd82c36-56b3-4dd9-b190-069cfc3a623f.mp4"
+      />
+
+      {/* Gradiente inferior para fundirse a negro */}
+      <div className="absolute bottom-0 w-full h-64 bg-gradient-to-t from-background to-transparent z-[1]" />
+
+      {/* Contenido principal */}
+      <div className="relative z-10 flex flex-col items-center px-4 max-w-5xl mx-auto pt-28 md:pt-32">
+        
+        {/* Fila de avatares y texto de suscritos */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="liquid-glass rounded-full px-4 py-1.5 flex items-center gap-3 mb-8"
+        >
+          <div className="flex -space-x-2">
+            <div className="w-6 h-6 rounded-full bg-muted border border-background flex items-center justify-center text-[10px]">A</div>
+            <div className="w-6 h-6 rounded-full bg-muted border border-background flex items-center justify-center text-[10px]">B</div>
+            <div className="w-6 h-6 rounded-full bg-muted border border-background flex items-center justify-center text-[10px]">C</div>
+          </div>
+          <span className="text-muted-foreground text-xs sm:text-sm font-medium">7,000+ people already subscribed</span>
+        </motion.div>
+
+        {/* Título principal */}
+        <motion.h1 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-[-2px] mb-6 text-foreground"
+        >
+          Get <span className="font-serif italic font-normal">Inspired</span> with Us.
+        </motion.h1>
+
+        {/* Subtítulo */}
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-lg text-[hsl(var(--hero-subtitle))] max-w-2xl mx-auto mb-10 leading-relaxed"
+        >
+          Join our feed for meaningful updates, news around technology and a shared journey toward depth and direction.
+        </motion.p>
+
+        {/* Formulario de correo / Liquid glass input */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="liquid-glass rounded-full p-2 flex items-center w-full max-w-md mx-auto"
+        >
+          <input 
+            type="email" 
+            placeholder="Enter your email" 
+            className="bg-transparent border-none outline-none text-foreground px-4 py-2 w-full text-sm placeholder:text-muted-foreground"
+          />
+          <motion.button 
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            className="bg-foreground text-background font-medium rounded-full px-6 py-2.5 text-sm tracking-wide shrink-0 transition-colors"
+          >
+            SUBSCRIBE
+          </motion.button>
+        </motion.div>
+
+      </div>
+    </section>
+  );
+}

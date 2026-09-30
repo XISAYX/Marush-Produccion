@@ -1,0 +1,43 @@
+---
+import Navbar from '../components/Navbar.jsx';
+import Hero from '../components/Hero.jsx';
+import SearchSection from '../components/SearchSection.jsx';
+import ItemSection from '../components/ItemSection.jsx';
+import Footer from '../components/Footer.jsx';
+import '../styles/global.css';
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Marush | Reserva de la Biosfera Barranca de Metztitlán</title>
+    
+    {/* PRECARGA ANTICIPADA DE TODOS LOS RECURSOS VISUALES PARA EVITAR PANTALLAS NEGRAS */}
+    <link rel="preload" href="/fondo-video.mp4" as="video" type="video/mp4" />
+    <link rel="preload" href="/logo-marush.png" as="image" />
+    
+    {/* Productos */}
+    <link rel="preload" href="/mockup-martin-pescador.jpg" as="image" />
+    <link rel="preload" href="/mockup-parque-marmoles.jpg" as="image" />
+    <link rel="preload" href="/mockup-pelicano.jpg" as="image" />
+    <link rel="preload" href="/mockup-reserva-metztitlan.jpg" as="image" />
+
+    {/* Carrusel de Identidad */}
+    <link rel="preload" href="/metztitlan-landscape.jpg" as="image" />
+    <link rel="preload" href="/parque-marmoles.jpg" as="image" />
+    <link rel="preload" href="/metztitlan-organos.jpg" as="image" />
+
+    {/* Mapa y Aves Principales */}
+    <link rel="preload" href="/mapameztitlan.png" as="image" />
+    <link rel="preload" href="/cardenal-rojo.jpg" as="image" />
+    <link rel="preload" href="/carpintero-desertico.jpg" as="image" />
+  </head>
+  <body>
+    <Navbar client:load />
+    <Hero client:load />
+    <SearchSection client:visible />
+    <ItemSection client:visible />
+    <Footer client:idle />
+  </body>
+</html>

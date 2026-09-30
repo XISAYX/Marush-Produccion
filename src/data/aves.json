@@ -1,0 +1,86 @@
+{
+  "residentes": [
+    {
+      "id": 1,
+      "nombre": "Cardenal Rojo",
+      "cientifico": "Cardinalis cardinalis",
+      "info1": "Ave cantora muy característica por su brillante plumaje escarlata en los machos y su cresta prominente.",
+      "info2": "Habita en zonas de matorrales y matorrales xerófilos de la reserva, siendo un símbolo visual de la región.",
+      "imagen": "/ave1.png"
+    },
+    {
+      "id": 2,
+      "nombre": "Carpintero Cheje",
+      "cientifico": "Melanerpes aurifrons",
+      "info1": "Especie de carpintero de tamaño mediano, reconocido por su corona rojiza y plumaje barrado en el dorso.",
+      "info2": "Desempeña un rol ecológico fundamental al cavar cavidades en los árboles para anidar y controlar plagas de insectos.",
+      "imagen": "/ave2.png"
+    },
+    {
+      "id": 3,
+      "nombre": "Correcaminos Norteño",
+      "cientifico": "Geococcyx californianus",
+      "info1": "Famoso por su gran velocidad al correr por el suelo árido en lugar de volar.",
+      "info2": "Se alimenta de insectos, lagartijas y pequeños roedores adaptándose perfectamente a los matorrales desérticos.",
+      "imagen": "/ave3.png"
+    },
+    {
+      "id": 4,
+      "nombre": "Cuitlacoche Sonorense",
+      "cientifico": "Toxostoma bendirei",
+      "info1": "Ave de plumaje discreto pero poseedora de un canto melodioso y complejo.",
+      "info2": "Frecuenta los arbustos densos y nopales buscando semillas e insectos entre la hojarasca.",
+      "imagen": "/ave4.png"
+    },
+    {
+      "id": 5,
+      "nombre": "Saltapared Común",
+      "cientifico": "Campylorhynchus brunneicapillus",
+      "info1": "El más grande de los chivirines o saltaparedes, habita zonas áridas y construcciones de nidos esféricos en cactáceas.",
+      "info2": "Muy activo y vocal, se desplaza en parejas o pequeños grupos familiares defendiendo su territorio.",
+      "imagen": "/ave5.png"
+    }
+  ],
+  "migratorias": [
+    {
+      "id": 6,
+      "nombre": "Pato Joyuyo",
+      "cientifico": "Aix sponsa",
+      "info1": "Considerado uno de los patos más bellos del mundo debido a los vistosos colores metálicos de su plumaje.",
+      "info2": "Visita los cuerpos de agua y humedales de la reserva durante sus rutas migratorias estacionales.",
+      "imagen": "/ave6.png"
+    },
+    {
+      "id": 7,
+      "nombre": "Martín Pescador Norteño",
+      "cientifico": "Megaceryle alcyon",
+      "info1": "Fácilmente identificable por su gran cabeza desproporcionada, cresta y potente canto tipo matraca.",
+      "info2": "Se instala cerca de ríos y embalses de agua para lanzarse en picada y capturar peces pequeños.",
+      "imagen": "/ave7.png"
+    },
+    {
+      "id": 8,
+      "nombre": "Halcón Peregrino",
+      "cientifico": "Falco peregrinus",
+      "info1": "Reconocido mundialmente como el animal más rápido del planeta al alcanzar velocidades extremas en picada.",
+      "info2": "Utiliza los altos paredones rocosos de la barranca como sitios de descanso y oteo durante su paso migratorio.",
+      "imagen": "/ave8.png"
+    },
+    {
+      "id": 9,
+      "nombre": "Pelícano Blanco Americano",
+      "cientifico": "Pelecanus erythrorhynchos",
+      "info1": "Ave acuática de gran envergadura con plumaje blanco puro y plumas primarias negras muy contrastantes.",
+      "info2": "Navega en grupos coordinados sobre los cuerpos de agua de la región en busca de peces para alimentarse.",
+      "imagen": "/ave9.png"
+    },
+    {
+      "id": 10,
+      "nombre": "Águila Pescadora",
+      "cientifico": "Pandion haliaetus",
+      "info1": "Rapaz especializada exclusivamente en la captura de peces, con garras reversibles únicas para sujetar presas resbaladizas.",
+      "info2": "Se avista sobrevolando los espejos de agua y cañones principales de la reserva durante temporadas de migración.",
+      "imagen": "/ave10.png"
+    }
+  ]
+}
