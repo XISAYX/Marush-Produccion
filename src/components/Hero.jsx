@@ -25,7 +25,7 @@ export default function Hero() {
 
   return (
     <>
-      {/* CONTENEDOR DE FONDO CON VIDEO CLOUDINARY */}
+      {/* CONTENEDOR DE FONDO CON VIDEO DE CLOUDINARY Y MÁXIMA VIVIDEZ */}
       <div className="fixed inset-0 w-full h-screen overflow-hidden -z-10 pointer-events-none transform-gpu bg-black">
         <video
           autoPlay
@@ -34,7 +34,7 @@ export default function Hero() {
           playsInline
           webkit-playsinline="true"
           preload="auto"
-          className="absolute inset-0 w-full h-full object-cover transform-gpu"
+          className="absolute inset-0 w-full h-full object-cover brightness-[1.15] saturate-[1.8] contrast-[1.2] filter transform-gpu will-change-transform scale-105"
         >
           <source
             src="https://res.cloudinary.com/s9lrwmoh/video/upload/v1790807993/fondo-video.mp4"
@@ -43,8 +43,8 @@ export default function Hero() {
           Tu navegador no soporta videos HTML5.
         </video>
 
-        {/* Capa de oscurecimiento elegante para que el texto resalte */}
-        <div className="absolute inset-0 bg-black/40 pointer-events-none transform-gpu" />
+        {/* Capa sutil para proteger la lectura del texto sin apagar el video */}
+        <div className="absolute inset-0 bg-black/25 pointer-events-none transform-gpu" />
       </div>
 
       <section
