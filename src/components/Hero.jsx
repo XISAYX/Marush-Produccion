@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Hero() {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const videoRef = useRef(null);
 
   useEffect(() => {
     const handleLocationState = (e) => {
@@ -10,6 +11,14 @@ export default function Hero() {
     };
 
     window.addEventListener("locationModalState", handleLocationState);
+
+    // Forzar la reproducción en dispositivos móviles al montar el componente
+    if (videoRef.current) {
+      videoRef.current.play().catch((error) => {
+        console.log("Autoplay bloqueado por el navegador móvil:", error);
+      });
+    }
+
     return () => {
       window.removeEventListener("locationModalState", handleLocationState);
     };
@@ -25,9 +34,10 @@ export default function Hero() {
 
   return (
     <>
-      <div className="fixed inset-0 w-full h-screen overflow-hidden -z-25 pointer-events-none transform-gpu bg-black">
-        {/* VÍDEO DE FONDO OPTIMIZADO PARA MÓVILES Y TABLETS */}
+      <div className="fixed inset-0 w-full h-screen overflow-hidden -z-10 pointer-events-none transform-gpu bg-black">
+        {/* VÍDEO CON REFERENCIA DE REPRODUCCIÓN FORZADA PARA MÓVILES */}
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
@@ -54,7 +64,7 @@ export default function Hero() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: -20 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-25 flex flex-col items-center justify-center max-w-4xl mx-auto w-full my-auto space-y-6 sm:space-y-8 pt-12 transform-gpu will-change-transform"
+              className="relative z-20 flex flex-col items-center justify-center max-w-4xl mx-auto w-full my-auto space-y-6 sm:space-y-8 pt-12 transform-gpu will-change-transform"
             >
               {/* ETIQUETA SUPERIOR */}
               <motion.div
