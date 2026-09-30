@@ -25,13 +25,14 @@ export default function Hero() {
 
   return (
     <>
-      <div className="fixed inset-0 w-full h-screen overflow-hidden -z-25 pointer-events-none transform-gpu">
-        {/* VÍDEO CON REALCE HDR EQUILIBRADO Y VÍVIDO */}
+      <div className="fixed inset-0 w-full h-screen overflow-hidden -z-25 pointer-events-none transform-gpu bg-black">
+        {/* VÍDEO OPTIMIZADO PARA MÓVILES Y TABLETS CON ATRIBUTOS DE REPRODUCCIÓN FORZADA */}
         <video
           autoPlay
           loop
           muted
           playsInline
+          webkit-playsinline="true"
           preload="auto"
           className="absolute inset-0 w-full h-full object-cover contrast-[1.25] saturate-[1.65] brightness-[1.02] filter transform-gpu will-change-transform scale-105"
           src="/fondo-video.mp4"
@@ -53,7 +54,7 @@ export default function Hero() {
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               className="relative z-25 flex flex-col items-center justify-center max-w-4xl mx-auto w-full my-auto space-y-6 sm:space-y-8 pt-12 transform-gpu will-change-transform"
             >
-              {/* ETIQUETA SUPERIOR: CRISTALINA POR DEFECTO, EFECTO LECHOSO AL PASAR EL CURSOR */}
+              {/* ETIQUETA SUPERIOR */}
               <motion.div
                 initial={{ opacity: 0, y: -15 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -78,7 +79,7 @@ export default function Hero() {
                 </span>
               </motion.div>
 
-              {/* LOGOTIPO  EN BLANCO LIMPIO */}
+              {/* LOGOTIPO */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.92 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -116,7 +117,7 @@ export default function Hero() {
                 Una Luz en la Penumbra Conservar para vivir.
               </motion.p>
 
-              {/* BOTÓN COMENZAR: CRISTALINO POR DEFECTO, EFECTO LECHOSO AL PASAR EL CURSOR */}
+              {/* BOTÓN COMENZAR */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
