@@ -25,25 +25,23 @@ export default function Hero() {
 
   return (
     <>
-      <div className="fixed inset-0 w-full h-screen overflow-hidden -z-10 pointer-events-none transform-gpu bg-black">
-        {/* VÍDEO CON CARGA NATIVA Y EVENTO DE REPRODUCCIÓN AUTOMÁTICA */}
+      {/* CONTENEDOR DE FONDO SEGURO */}
+      <div className="fixed inset-0 w-full h-screen overflow-hidden -z-10 pointer-events-none transform-gpu bg-zinc-900">
+        {/* IMAGEN DE RESPALDO Y VIDEO COMPATIBLE */}
         <video
           autoPlay
           loop
           muted
           playsInline
           webkit-playsinline="true"
-          preload="auto"
-          onLoadedData={(e) => {
-            e.target.play().catch((err) => console.log("Play error:", err));
-          }}
-          className="absolute inset-0 w-full h-full object-cover contrast-[1.25] saturate-[1.65] brightness-[1.02] filter transform-gpu will-change-transform scale-105"
+          className="absolute inset-0 w-full h-full object-cover transform-gpu"
         >
           <source src="/fondo-video.mp4" type="video/mp4" />
           Tu navegador no soporta videos HTML5.
         </video>
 
-        <div className="absolute inset-0 bg-white/[0.02] mix-blend-overlay pointer-events-none transform-gpu" />
+        {/* CAPA DE OSCURECIMIENTO SUAVE PARA LEGISILIDAD DEL TEXTO */}
+        <div className="absolute inset-0 bg-black/40 pointer-events-none transform-gpu" />
       </div>
 
       <section
@@ -79,7 +77,7 @@ export default function Hero() {
                   border: "1px solid rgba(255, 255, 255, 0.25)",
                 }}
               >
-                <span className="text-black font-bold tracking-[0.2em] sm:tracking-[0.3em] uppercase text-[10px] sm:text-xs">
+                <span className="text-white font-bold tracking-[0.2em] sm:tracking-[0.3em] uppercase text-[10px] sm:text-xs">
                   Reserva de la Biosfera Barranca de Metztitlán
                 </span>
               </motion.div>
