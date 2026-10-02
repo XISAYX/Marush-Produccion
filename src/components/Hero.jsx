@@ -12,7 +12,6 @@ export default function Hero() {
 
     window.addEventListener("locationModalState", handleLocationState);
 
-    // Función para forzar la reproducción en dispositivos iOS al primer toque o carga
     const attemptPlay = () => {
       if (videoRef.current) {
         videoRef.current.play().catch((err) => {
@@ -23,7 +22,6 @@ export default function Hero() {
 
     attemptPlay();
 
-    // Desbloqueo táctil universal para iPhone / Safari móvil
     const handleTouchOrClick = () => {
       attemptPlay();
       window.removeEventListener("touchstart", handleTouchOrClick);
@@ -50,7 +48,6 @@ export default function Hero() {
 
   return (
     <>
-      {/* CONTENEDOR DE FONDO CON DESBLOQUEO TÁCTIL PARA IOS */}
       <div className="fixed inset-0 w-full h-screen overflow-hidden -z-10 pointer-events-none transform-gpu bg-black">
         <video
           ref={videoRef}
@@ -63,7 +60,8 @@ export default function Hero() {
           onCanPlay={(e) => {
             e.target.play().catch((err) => console.log("Play error:", err));
           }}
-          className="absolute inset-0 w-full h-full object-cover brightness-[1.15] saturate-[1.8] contrast-[1.2] filter transform-gpu will-change-transform scale-105"
+          // Filtros ajustados: contraste nítido, alta saturación fría/viva y ligero toque de brillo natural
+          className="absolute inset-0 w-full h-full object-cover brightness-[1.05] saturate-[1.6] contrast-[1.25] hue-rotate-[10deg] filter transform-gpu will-change-transform scale-105"
         >
           <source
             src="https://res.cloudinary.com/s9lrwmoh/video/upload/f_auto,q_auto,vc_auto/v1790807993/fondo-video.mp4"
@@ -72,8 +70,8 @@ export default function Hero() {
           Tu navegador no soporta videos HTML5.
         </video>
 
-        {/* Capa sutil para proteger la lectura del texto */}
-        <div className="absolute inset-0 bg-black/25 pointer-events-none transform-gpu" />
+        {/* Capa oscura sutil para contraste elegante */}
+        <div className="absolute inset-0 bg-black/30 pointer-events-none transform-gpu" />
       </div>
 
       <section

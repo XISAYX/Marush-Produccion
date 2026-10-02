@@ -108,6 +108,7 @@ export default function Navbar() {
               onClick={() => {
                 setIsMobileMenuOpen(true);
                 document.body.style.overflow = "hidden";
+                // Restablecemos el evento para que oculte el contenido de atrás limpiamente
                 window.dispatchEvent(
                   new CustomEvent("locationModalState", {
                     detail: { isOpen: true },
@@ -212,52 +213,54 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* MENÚ MÓVIL FLOTANTE CRISTALINO (NO CUBRE TODA LA PANTALLA) */}
+      {/* MENÚ MÓVIL FLOTANTE (DRAWER LATERAL CON EFECTO CRISTAL) */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <div className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm flex justify-center items-center p-4 md:hidden transform-gpu">
+          <div className="fixed inset-0 z-50 bg-black/10 backdrop-blur-[2px] flex justify-start md:hidden transform-gpu">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="border rounded-3xl max-w-xs w-full p-6 text-black shadow-2xl backdrop-blur-2xl relative flex flex-col items-center gap-4 text-center transform-gpu will-change-transform overflow-hidden"
+              initial={{ x: "-100%", opacity: 0 }}
+              animate={{ x: "0%", opacity: 1 }}
+              exit={{ x: "-100%", opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="m-3 h-[calc(100vh-1.5rem)] w-72 p-6 text-black shadow-2xl backdrop-blur-3xl relative flex flex-col gap-6 transform-gpu will-change-transform rounded-3xl border"
               style={{
-                backgroundColor: "rgba(255, 255, 255, 0.25)",
+                backgroundColor: "rgba(255, 255, 255, 0.12)",
                 borderColor: brandColors.border,
               }}
             >
-              <button
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  document.body.style.overflow = "auto";
-                  window.dispatchEvent(
-                    new CustomEvent("locationModalState", {
-                      detail: { isOpen: false },
-                    }),
-                  );
-                }}
-                className="absolute top-3.5 right-3.5 bg-black/10 hover:bg-black/20 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border border-black/20 text-black cursor-pointer transition-all"
-              >
-                ✕
-              </button>
+              <div className="flex justify-between items-center mt-1">
+                <div>
+                  <span
+                    style={{ color: brandColors.accentRed }}
+                    className="text-[9px] uppercase tracking-[0.3em] font-black block"
+                  >
+                    Navegación
+                  </span>
+                  <h3
+                    style={{ color: brandColors.title }}
+                    className="font-sans text-xl font-black tracking-tight mt-0.5"
+                  >
+                    Menú Principal
+                  </h3>
+                </div>
 
-              <div className="mt-1">
-                <span
-                  style={{ color: brandColors.accentRed }}
-                  className="text-[9px] uppercase tracking-[0.3em] font-black block"
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    document.body.style.overflow = "auto";
+                    window.dispatchEvent(
+                      new CustomEvent("locationModalState", {
+                        detail: { isOpen: false },
+                      }),
+                    );
+                  }}
+                  className="bg-black/10 hover:bg-black/20 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border border-black/20 text-black cursor-pointer transition-all"
                 >
-                  Navegación
-                </span>
-                <h3
-                  style={{ color: brandColors.title }}
-                  className="font-sans text-xl font-black tracking-tight mt-0.5"
-                >
-                  Menú Principal
-                </h3>
+                  ✕
+                </button>
               </div>
 
-              <div className="flex flex-col gap-2 text-xs font-bold text-black w-full">
+              <div className="flex flex-col gap-2.5 text-xs font-bold text-black w-full mt-2">
                 <a
                   href="#home"
                   onClick={() => {
@@ -269,7 +272,7 @@ export default function Navbar() {
                       }),
                     );
                   }}
-                  className="py-2.5 px-4 rounded-xl bg-white/[0.08] border border-white/30 hover:bg-white/[0.15] transition-colors shadow-sm text-black no-underline"
+                  className="py-3 px-4 rounded-2xl bg-white/[0.05] border border-white/20 hover:bg-white/[0.25] hover:scale-[1.02] active:scale-95 transition-all shadow-sm text-black no-underline"
                 >
                   Inicio
                 </a>
@@ -284,7 +287,7 @@ export default function Navbar() {
                       }),
                     );
                   }}
-                  className="py-2.5 px-4 rounded-xl bg-white/[0.08] border border-white/30 hover:bg-white/[0.15] transition-colors shadow-sm text-black no-underline"
+                  className="py-3 px-4 rounded-2xl bg-white/[0.05] border border-white/20 hover:bg-white/[0.25] hover:scale-[1.02] active:scale-95 transition-all shadow-sm text-black no-underline"
                 >
                   ¿Quiénes somos?
                 </a>
@@ -299,7 +302,7 @@ export default function Navbar() {
                       }),
                     );
                   }}
-                  className="py-2.5 px-4 rounded-xl bg-white/[0.08] border border-white/30 hover:bg-white/[0.15] transition-colors shadow-sm text-black no-underline"
+                  className="py-3 px-4 rounded-2xl bg-white/[0.05] border border-white/20 hover:bg-white/[0.25] hover:scale-[1.02] active:scale-95 transition-all shadow-sm text-black no-underline"
                 >
                   Productos
                 </a>
@@ -314,7 +317,7 @@ export default function Navbar() {
                       }),
                     );
                   }}
-                  className="py-2.5 px-4 rounded-xl bg-white/[0.08] border border-white/30 hover:bg-white/[0.15] transition-colors shadow-sm text-black no-underline"
+                  className="py-3 px-4 rounded-2xl bg-white/[0.05] border border-white/20 hover:bg-white/[0.25] hover:scale-[1.02] active:scale-95 transition-all shadow-sm text-black no-underline"
                 >
                   Contacto
                 </a>
@@ -324,7 +327,7 @@ export default function Navbar() {
                     handleOpenAvesModal();
                   }}
                   style={{ color: "#000000" }}
-                  className="py-2.5 px-4 rounded-xl bg-white/[0.08] border border-white/30 font-black hover:bg-white/[0.15] transition-colors cursor-pointer w-full text-center shadow-sm"
+                  className="py-3 px-4 rounded-2xl bg-white/[0.05] border border-white/20 font-black hover:bg-white/[0.25] hover:scale-[1.02] active:scale-95 transition-all cursor-pointer w-full text-center shadow-sm"
                 >
                   Aves Residentes
                 </button>
