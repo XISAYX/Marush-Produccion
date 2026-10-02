@@ -55,7 +55,7 @@ export default function SearchSection() {
   const [isPaused, setIsPaused] = useState(false);
   const [tipoVista, setTipoVista] = useState("ilustrada"); // "ilustrada" u "original"
 
-  // Cambio automático del carrusel cada 3 segundos (funciona para ambas vistas)
+  // Cambio automático del carrusel cada 3 segundos
   useEffect(() => {
     if (isPaused) return;
     const landscapeInterval = setInterval(() => {
@@ -82,16 +82,16 @@ export default function SearchSection() {
   return (
     <section
       id="quienes-somos"
-      className="relative w-full min-h-screen py-16 px-4 sm:px-6 md:px-12 lg:px-20 z-10 flex flex-col justify-center items-center transform-gpu overflow-hidden"
+      className="relative w-full min-h-screen py-16 px-4 sm:px-6 md:px-12 lg:px-20 z-10 flex flex-col justify-center items-center overflow-hidden"
     >
       <div className="max-w-4xl mx-auto w-full flex flex-col items-center justify-center gap-6 my-auto">
         {/* ENCABEZADO ROTATIVO CENTRADO */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center max-w-2xl mx-auto cursor-pointer transform-gpu will-change-transform flex flex-col items-center"
+          className="text-center max-w-2xl mx-auto cursor-pointer flex flex-col items-center"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={() => setIsPaused(true)}
@@ -104,7 +104,7 @@ export default function SearchSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="transform-gpu will-change-transform flex flex-col items-center"
+              className="flex flex-col items-center"
             >
               <span
                 className="text-[10px] sm:text-xs uppercase tracking-[0.4em] font-black block mb-2"
@@ -137,24 +137,24 @@ export default function SearchSection() {
           </div>
         </motion.div>
 
-        {/* TARJETA CENTRAL RESPONSIVA CON PAUSA Y MENSAJE DINÁMICO */}
+        {/* TARJETA CENTRAL RESPONSIVA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={() => setIsPaused(true)}
           onTouchEnd={() => setIsPaused(false)}
-          className="rounded-[28px] p-5 sm:p-8 backdrop-blur-md flex flex-col items-center text-center gap-4 transform-gpu will-change-transform cursor-pointer transition-all w-full shadow-2xl"
+          className="rounded-[28px] p-5 sm:p-8 backdrop-blur-md flex flex-col items-center text-center gap-4 cursor-pointer transition-all w-full shadow-2xl"
           style={{
             backgroundColor: "rgba(255, 255, 255, 0.08)",
             border: "1px solid rgba(255, 255, 255, 0.35)",
           }}
         >
-          {/* CONTENEDOR DE IMAGEN Y BOTONES */}
-          <div className="w-full h-52 sm:h-72 md:h-80 rounded-2xl overflow-hidden bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/10">
+          {/* CONTENEDOR DE IMAGEN */}
+          <div className="w-full h-64 sm:h-72 md:h-80 rounded-2xl overflow-hidden bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/10">
             <AnimatePresence mode="wait">
               <motion.img
                 key={`${itemActual.id}-${tipoVista}`}
@@ -167,52 +167,55 @@ export default function SearchSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.04 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="w-full h-full object-cover rounded-xl shadow-md transform-gpu will-change-transform"
+                className="w-full h-full object-cover rounded-xl shadow-md"
                 onError={(e) => {
                   e.target.src = "/logo-marush.png";
                 }}
               />
             </AnimatePresence>
 
-            {/* ETIQUETA SUPERIOR DINÁMICA: CAMBIA A "IMAGEN PAUSADA" AL PASAR EL MOUSE O TACTO */}
-            <span
-              className={`absolute top-4 left-4 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full border z-10 transition-all duration-300 ${
-                isPaused
-                  ? "bg-[#ff1a2e]/80 border-white/40 shadow-lg"
-                  : "bg-black/50 border-white/20"
-              }`}
-            >
-              {isPaused ? "Imagen Pausada" : itemActual.tag}
-            </span>
+            {/* BARRA SUPERIOR MINIMALISTA: Evita estorbar la imagen */}
+            <div className="absolute top-0 left-0 w-full p-2.5 sm:p-3 flex justify-between items-start z-20 pointer-events-none">
+              {/* ETIQUETA / INDICADOR DE PAUSA (Pequeño y elegante) */}
+              <span
+                className={`pointer-events-auto backdrop-blur-md text-white text-[8px] sm:text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full border transition-all duration-300 ${
+                  isPaused
+                    ? "bg-black/70 border-white/40"
+                    : "bg-black/40 border-white/20"
+                }`}
+              >
+                {isPaused ? "⏸ Pausado" : itemActual.tag}
+              </span>
 
-            {/* BOTONES DE CAMBIO DE VISTA (ILUSTRADAS / ORIGINALES) */}
-            <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/40 backdrop-blur-md p-1 rounded-full border border-white/25 z-20 shadow-lg">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setTipoVista("ilustrada");
-                }}
-                className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                  tipoVista === "ilustrada"
-                    ? "bg-[#ff1a2e] text-white shadow-md"
-                    : "text-white/80 hover:text-white bg-transparent"
-                }`}
-              >
-                Ilustradas
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setTipoVista("original");
-                }}
-                className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                  tipoVista === "original"
-                    ? "bg-[#ff1a2e] text-white shadow-md"
-                    : "text-white/80 hover:text-white bg-transparent"
-                }`}
-              >
-                Originales
-              </button>
+              {/* BOTONES DE CAMBIO DE VISTA (Pequeños, no se estiran) */}
+              <div className="pointer-events-auto flex items-center bg-black/40 backdrop-blur-md p-0.5 rounded-full border border-white/20 shadow-sm">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setTipoVista("ilustrada");
+                  }}
+                  className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[8px] sm:text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    tipoVista === "ilustrada"
+                      ? "bg-[#ff1a2e] text-white shadow-md"
+                      : "text-white/70 hover:text-white bg-transparent"
+                  }`}
+                >
+                  Ilustradas
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setTipoVista("original");
+                  }}
+                  className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[8px] sm:text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                    tipoVista === "original"
+                      ? "bg-[#ff1a2e] text-white shadow-md"
+                      : "text-white/70 hover:text-white bg-transparent"
+                  }`}
+                >
+                  Originales
+                </button>
+              </div>
             </div>
 
             {/* INDICADORES DE PAGINACIÓN DE PAISAJES */}
@@ -235,9 +238,9 @@ export default function SearchSection() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center text-center gap-1.5 w-full">
+          <div className="flex flex-col items-center text-center gap-1.5 w-full mt-1">
             <span
-              className="text-[11px] uppercase tracking-[0.3em] font-extrabold"
+              className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] font-extrabold"
               style={{ color: "#ff1a2e" }}
             >
               Paisajes de la Biosfera
