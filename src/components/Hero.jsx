@@ -12,15 +12,31 @@ export default function Hero() {
 
     window.addEventListener("locationModalState", handleLocationState);
 
-    // Forzar la reproducción programática para iPhone y navegadores móviles estrictos
-    if (videoRef.current) {
-      videoRef.current.play().catch((error) => {
-        console.log("Autoplay bloqueado por políticas de iOS:", error);
-      });
-    }
+    // Función para forzar la reproducción en dispositivos iOS al primer toque o carga
+    const attemptPlay = () => {
+      if (videoRef.current) {
+        videoRef.current.play().catch((err) => {
+          console.log("Autoplay restringido por iOS:", err);
+        });
+      }
+    };
+
+    attemptPlay();
+
+    // Desbloqueo táctil universal para iPhone / Safari móvil
+    const handleTouchOrClick = () => {
+      attemptPlay();
+      window.removeEventListener("touchstart", handleTouchOrClick);
+      window.removeEventListener("click", handleTouchOrClick);
+    };
+
+    window.addEventListener("touchstart", handleTouchOrClick, { once: true });
+    window.addEventListener("click", handleTouchOrClick, { once: true });
 
     return () => {
       window.removeEventListener("locationModalState", handleLocationState);
+      window.removeEventListener("touchstart", handleTouchOrClick);
+      window.removeEventListener("click", handleTouchOrClick);
     };
   }, []);
 
@@ -34,20 +50,18 @@ export default function Hero() {
 
   return (
     <>
-      {/* CONTENEDOR DE FONDO CON REFERENCIA DE REPRODUCCIÓN MÓVIL */}
+      {/* CONTENEDOR DE FONDO CON DESBLOQUEO TÁCTIL PARA IOS */}
       <div className="fixed inset-0 w-full h-screen overflow-hidden -z-10 pointer-events-none transform-gpu bg-black">
         <video
           ref={videoRef}
           autoPlay
           loop
-          muted
-          playsInline
+          muted={true}
+          playsInline={true}
           webkit-playsinline="true"
           preload="auto"
           onCanPlay={(e) => {
-            e.target
-              .play()
-              .catch((err) => console.log("Play error on mobile:", err));
+            e.target.play().catch((err) => console.log("Play error:", err));
           }}
           className="absolute inset-0 w-full h-full object-cover brightness-[1.15] saturate-[1.8] contrast-[1.2] filter transform-gpu will-change-transform scale-105"
         >
@@ -58,7 +72,7 @@ export default function Hero() {
           Tu navegador no soporta videos HTML5.
         </video>
 
-        {/* Capa sutil para proteger la lectura del texto sin apagar el video */}
+        {/* Capa sutil para proteger la lectura del texto */}
         <div className="absolute inset-0 bg-black/25 pointer-events-none transform-gpu" />
       </div>
 
