@@ -49,7 +49,7 @@ export default function Hero() {
   return (
     <>
       <div
-        className="fixed inset-0 w-full h-[100dvh] overflow-hidden -z-10 pointer-events-none bg-black"
+        className="fixed inset-0 w-full h-screen overflow-hidden -z-10 pointer-events-none bg-black"
         style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
       >
         <video
@@ -78,8 +78,8 @@ export default function Hero() {
 
       <section
         id="home"
-        className="relative h-[100dvh] w-full flex flex-col justify-center items-center text-center overflow-hidden text-white px-4"
-        style={{ transform: "translateZ(0)" }}
+        className="relative h-screen w-full flex flex-col justify-center items-center text-center overflow-hidden text-white px-4"
+        style={{ height: "100vh", transform: "translateZ(0)" }}
       >
         <AnimatePresence mode="wait">
           {!isLocationOpen && (
@@ -98,7 +98,7 @@ export default function Hero() {
               <motion.div
                 initial={{ opacity: 0, y: -15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }} // Cambiado a true para evitar parpadeos
+                viewport={{ once: true, amount: 0.15 }}
                 transition={{
                   duration: 0.5,
                   delay: 0.05,
@@ -124,7 +124,7 @@ export default function Hero() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.92 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, amount: 0.15 }} // Cambiado a true para evitar parpadeos
+                viewport={{ once: true, amount: 0.15 }}
                 transition={{
                   duration: 0.6,
                   delay: 0.15,
@@ -148,7 +148,7 @@ export default function Hero() {
               <motion.p
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }} // Cambiado a true para evitar parpadeos
+                viewport={{ once: true, amount: 0.15 }}
                 transition={{
                   duration: 0.5,
                   delay: 0.25,
@@ -164,7 +164,7 @@ export default function Hero() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }} // Cambiado a true para evitar parpadeos
+                viewport={{ once: true, amount: 0.15 }}
                 transition={{
                   duration: 0.5,
                   delay: 0.35,
