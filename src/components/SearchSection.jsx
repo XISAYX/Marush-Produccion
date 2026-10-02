@@ -77,6 +77,21 @@ export default function SearchSection() {
       ? itemActual.imagenIlustrada
       : itemActual.imagenOriginal;
 
+  // Lógica para el deslizamiento táctil (Swipe)
+  const handleDragEnd = (event, info) => {
+    // Si se desliza hacia la izquierda (para avanzar)
+    if (info.offset.x < -50) {
+      setCurrentIndex((prev) => (prev + 1) % paisesIlustraciones.length);
+    }
+    // Si se desliza hacia la derecha (para regresar)
+    else if (info.offset.x > 50) {
+      setCurrentIndex(
+        (prev) =>
+          (prev - 1 + paisesIlustraciones.length) % paisesIlustraciones.length,
+      );
+    }
+  };
+
   return (
     <section
       id="quienes-somos"
@@ -131,7 +146,7 @@ export default function SearchSection() {
           </div>
         </motion.div>
 
-        {/* TARJETA CENTRAL RESPONSIVA CON LÍMITES EN LA PARTE INFERIOR */}
+        {/* TARJETA CENTRAL RESPONSIVA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -143,7 +158,7 @@ export default function SearchSection() {
             border: "1px solid rgba(255, 255, 255, 0.35)",
           }}
         >
-          {/* CONTENEDOR DE IMAGEN (AQUÍ SE ACTIVA/DESACTIVA LA PAUSA AL HACER CLIC) */}
+          {/* CONTENEDOR DE IMAGEN CON SWIPE Y PAUSA */}
           <div
             onClick={() => setIsPaused(!isPaused)}
             className="w-full h-64 sm:h-72 md:h-80 rounded-2xl overflow-hidden bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/10 cursor-pointer"
@@ -160,10 +175,15 @@ export default function SearchSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.04 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="w-full h-full object-cover rounded-xl shadow-md"
+                className="w-full h-full object-cover rounded-xl shadow-md touch-pan-y"
                 onError={(e) => {
                   e.target.src = "/logo-marush.png";
                 }}
+                // Propiedades para hacer la imagen deslizable (Swipe)
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={handleDragEnd}
               />
             </AnimatePresence>
 
@@ -229,7 +249,7 @@ export default function SearchSection() {
             </div>
           </div>
 
-          {/* TEXTO INFERIOR (Con límites y márgenes ajustados) */}
+          {/* TEXTO INFERIOR */}
           <div className="flex flex-col items-center text-center gap-2 w-full mt-1 px-2 pb-2">
             <span
               className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] font-extrabold"
