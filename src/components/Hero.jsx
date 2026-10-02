@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Hero() {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
-  const videoRef = useRef(null);
 
   useEffect(() => {
     const handleLocationState = (e) => {
@@ -11,30 +10,8 @@ export default function Hero() {
     };
 
     window.addEventListener("locationModalState", handleLocationState);
-
-    const attemptPlay = () => {
-      if (videoRef.current) {
-        videoRef.current.play().catch((err) => {
-          console.log("Autoplay restringido por iOS:", err);
-        });
-      }
-    };
-
-    attemptPlay();
-
-    const handleTouchOrClick = () => {
-      attemptPlay();
-      window.removeEventListener("touchstart", handleTouchOrClick);
-      window.removeEventListener("click", handleTouchOrClick);
-    };
-
-    window.addEventListener("touchstart", handleTouchOrClick, { once: true });
-    window.addEventListener("click", handleTouchOrClick, { once: true });
-
     return () => {
       window.removeEventListener("locationModalState", handleLocationState);
-      window.removeEventListener("touchstart", handleTouchOrClick);
-      window.removeEventListener("click", handleTouchOrClick);
     };
   }, []);
 
@@ -48,30 +25,26 @@ export default function Hero() {
 
   return (
     <>
+      {/* CONTENEDOR DE FONDO CON VIDEO DE CLOUDINARY Y MÁXIMA VIVIDEZ */}
       <div className="fixed inset-0 w-full h-screen overflow-hidden -z-10 pointer-events-none transform-gpu bg-black">
         <video
-          ref={videoRef}
           autoPlay
           loop
-          muted={true}
-          playsInline={true}
+          muted
+          playsInline
           webkit-playsinline="true"
           preload="auto"
-          onCanPlay={(e) => {
-            e.target.play().catch((err) => console.log("Play error:", err));
-          }}
-          // Filtros ajustados: contraste nítido, alta saturación fría/viva y ligero toque de brillo natural
-          className="absolute inset-0 w-full h-full object-cover brightness-[1.05] saturate-[1.6] contrast-[1.25] hue-rotate-[10deg] filter transform-gpu will-change-transform scale-105"
+          className="absolute inset-0 w-full h-full object-cover brightness-[1.15] saturate-[1.8] contrast-[1.2] filter transform-gpu will-change-transform scale-105"
         >
           <source
-            src="https://res.cloudinary.com/s9lrwmoh/video/upload/f_auto,q_auto,vc_auto/v1790807993/fondo-video.mp4"
+            src="https://res.cloudinary.com/s9lrwmoh/video/upload/v1790807993/fondo-video.mp4"
             type="video/mp4"
           />
           Tu navegador no soporta videos HTML5.
         </video>
 
-        {/* Capa oscura sutil para contraste elegante */}
-        <div className="absolute inset-0 bg-black/30 pointer-events-none transform-gpu" />
+        {/* Capa sutil para proteger la lectura del texto sin apagar el video */}
+        <div className="absolute inset-0 bg-black/25 pointer-events-none transform-gpu" />
       </div>
 
       <section
