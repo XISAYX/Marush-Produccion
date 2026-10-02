@@ -12,7 +12,6 @@ export default function Hero() {
 
     window.addEventListener("locationModalState", handleLocationState);
 
-    // Función para forzar la reproducción en dispositivos iOS al primer toque o carga
     const attemptPlay = () => {
       if (videoRef.current) {
         videoRef.current.play().catch((err) => {
@@ -23,7 +22,6 @@ export default function Hero() {
 
     attemptPlay();
 
-    // Desbloqueo táctil universal para iPhone / Safari móvil
     const handleTouchOrClick = () => {
       attemptPlay();
       window.removeEventListener("touchstart", handleTouchOrClick);
@@ -50,8 +48,11 @@ export default function Hero() {
 
   return (
     <>
-      {/* CONTENEDOR DE FONDO CON DESBLOQUEO TÁCTIL PARA IOS */}
-      <div className="fixed inset-0 w-full h-screen overflow-hidden -z-10 pointer-events-none transform-gpu bg-black">
+      {/* CAPA DE FONDO ESTABLE ANTI-PARPADEO (GPU OPTIMIZADA) */}
+      <div
+        className="fixed inset-0 w-full h-[100dvh] overflow-hidden -z-10 pointer-events-none bg-black"
+        style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
+      >
         <video
           ref={videoRef}
           autoPlay
@@ -63,7 +64,8 @@ export default function Hero() {
           onCanPlay={(e) => {
             e.target.play().catch((err) => console.log("Play error:", err));
           }}
-          className="absolute inset-0 w-full h-full object-cover brightness-[1.15] saturate-[1.8] contrast-[1.2] filter transform-gpu will-change-transform scale-105"
+          className="absolute inset-0 w-full h-full object-cover brightness-[1.15] saturate-[1.8] contrast-[1.2] scale-105"
+          style={{ willChange: "transform", backfaceVisibility: "hidden" }}
         >
           <source
             src="https://res.cloudinary.com/s9lrwmoh/video/upload/f_auto,q_auto,vc_auto/v1790807993/fondo-video.mp4"
@@ -72,13 +74,14 @@ export default function Hero() {
           Tu navegador no soporta videos HTML5.
         </video>
 
-        {/* Capa sutil para proteger la lectura del texto */}
-        <div className="absolute inset-0 bg-black/25 pointer-events-none transform-gpu" />
+        {/* Capa sutil anti-parpadeo para proteger la lectura */}
+        <div className="absolute inset-0 bg-black/25 pointer-events-none" />
       </div>
 
       <section
         id="home"
-        className="relative h-screen w-full flex flex-col justify-center items-center text-center overflow-hidden text-white px-4 transform-gpu"
+        className="relative h-[100dvh] w-full flex flex-col justify-center items-center text-center overflow-hidden text-white px-4"
+        style={{ transform: "translateZ(0)" }}
       >
         <AnimatePresence mode="wait">
           {!isLocationOpen && (
@@ -87,7 +90,11 @@ export default function Hero() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: -20 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-20 flex flex-col items-center justify-center max-w-4xl mx-auto w-full my-auto space-y-6 sm:space-y-8 pt-12 transform-gpu will-change-transform"
+              className="relative z-20 flex flex-col items-center justify-center max-w-4xl mx-auto w-full my-auto space-y-6 sm:space-y-8 pt-12"
+              style={{
+                willChange: "transform, opacity",
+                backfaceVisibility: "hidden",
+              }}
             >
               {/* ETIQUETA SUPERIOR */}
               <motion.div
@@ -103,10 +110,11 @@ export default function Hero() {
                   backgroundColor: "rgba(255, 255, 255, 0.25)",
                   backdropFilter: "blur(12px)",
                 }}
-                className="rounded-full px-6 sm:px-8 py-2.5 sm:py-3 transform-gpu will-change-transform mx-auto transition-all cursor-pointer"
+                className="rounded-full px-6 sm:px-8 py-2.5 sm:py-3 mx-auto transition-all cursor-pointer"
                 style={{
                   backgroundColor: "rgba(255, 255, 255, 0.01)",
                   border: "1px solid rgba(255, 255, 255, 0.25)",
+                  backfaceVisibility: "hidden",
                 }}
               >
                 <span className="text-white font-bold tracking-[0.2em] sm:tracking-[0.3em] uppercase text-[10px] sm:text-xs">
@@ -124,17 +132,15 @@ export default function Hero() {
                   delay: 0.15,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="flex justify-center items-center transform-gpu will-change-transform my-2 group cursor-default"
+                className="flex justify-center items-center my-2 group cursor-default"
+                style={{ backfaceVisibility: "hidden" }}
               >
                 <img
                   src="/logo-marush.webp"
                   alt="Marush Logo Principal"
                   width="384"
                   height="150"
-                  className="w-56 sm:w-72 md:w-96 object-contain filter invert transform-gpu transition-transform duration-700 group-hover:scale-105 will-change-transform"
-                  onError={(e) => {
-                    e.target.src = "/logo-marush.png";
-                  }}
+                  className="w-56 sm:w-72 md:w-96 object-contain filter invert transition-transform duration-700 group-hover:scale-105"
                 />
               </motion.div>
 
@@ -147,7 +153,8 @@ export default function Hero() {
                   delay: 0.25,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="text-base sm:text-lg md:text-xl font-light text-stone-100 italic max-w-2xl px-4 mx-auto transform-gpu will-change-transform"
+                className="text-base sm:text-lg md:text-xl font-light text-stone-100 italic max-w-2xl px-4 mx-auto"
+                style={{ backfaceVisibility: "hidden" }}
               >
                 Una Luz en la Penumbra Conservar para vivir.
               </motion.p>
@@ -162,7 +169,8 @@ export default function Hero() {
                   delay: 0.35,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="transform-gpu will-change-transform pt-2"
+                className="pt-2"
+                style={{ backfaceVisibility: "hidden" }}
               >
                 <motion.a
                   href="#quienes-somos"
@@ -173,7 +181,7 @@ export default function Hero() {
                     backdropFilter: "blur(12px)",
                   }}
                   whileTap={{ scale: 0.96 }}
-                  className="font-medium rounded-full px-8 sm:px-10 py-3.5 sm:py-4 text-xs sm:text-sm uppercase tracking-widest cursor-pointer inline-block text-center no-underline transition-all transform-gpu will-change-transform text-white"
+                  className="font-medium rounded-full px-8 sm:px-10 py-3.5 sm:py-4 text-xs sm:text-sm uppercase tracking-widest cursor-pointer inline-block text-center no-underline transition-all text-white"
                   style={{
                     backgroundColor: "rgba(255, 255, 255, 0.01)",
                     border: "1px solid rgba(255, 255, 255, 0.25)",
