@@ -79,12 +79,9 @@ export default function SearchSection() {
 
   // Lógica para el deslizamiento táctil (Swipe)
   const handleDragEnd = (event, info) => {
-    // Si se desliza hacia la izquierda (para avanzar)
     if (info.offset.x < -50) {
       setCurrentIndex((prev) => (prev + 1) % paisesIlustraciones.length);
-    }
-    // Si se desliza hacia la derecha (para regresar)
-    else if (info.offset.x > 50) {
+    } else if (info.offset.x > 50) {
       setCurrentIndex(
         (prev) =>
           (prev - 1 + paisesIlustraciones.length) % paisesIlustraciones.length,
@@ -158,11 +155,9 @@ export default function SearchSection() {
             border: "1px solid rgba(255, 255, 255, 0.35)",
           }}
         >
-          {/* CONTENEDOR DE IMAGEN CON SWIPE Y PAUSA */}
-          <div
-            onClick={() => setIsPaused(!isPaused)}
-            className="w-full h-64 sm:h-72 md:h-80 rounded-2xl overflow-hidden bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/10 cursor-pointer"
-          >
+          {/* CONTENEDOR DE IMAGEN (El onClick global se eliminó para evitar conflictos) */}
+          <div className="w-full h-64 sm:h-72 md:h-80 rounded-2xl overflow-hidden bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/10">
+            {/* LA MAGIA ESTÁ AQUÍ: La imagen maneja los toques y deslizamientos de forma inteligente */}
             <AnimatePresence mode="wait">
               <motion.img
                 key={`${itemActual.id}-${tipoVista}`}
@@ -175,15 +170,16 @@ export default function SearchSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.04 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="w-full h-full object-cover rounded-xl shadow-md touch-pan-y"
+                className="absolute inset-0 w-full h-full object-cover rounded-xl shadow-md touch-pan-y cursor-pointer z-0"
                 onError={(e) => {
                   e.target.src = "/logo-marush.png";
                 }}
-                // Propiedades para hacer la imagen deslizable (Swipe)
-                drag="x"
+                drag={isPaused ? "x" : false}
                 dragConstraints={{ left: 0, right: 0 }}
                 dragElastic={0.2}
                 onDragEnd={handleDragEnd}
+                // onTap detecta toques directos pero ignora si arrastraste el dedo
+                onTap={() => setIsPaused(!isPaused)}
               />
             </AnimatePresence>
 
@@ -199,12 +195,10 @@ export default function SearchSection() {
                 {isPaused ? "PAUSADO" : itemActual.tag}
               </span>
 
+              {/* BOTONES AISLADOS: Al hacerles clic no afectarán la pausa */}
               <div className="pointer-events-auto flex items-center bg-black/40 backdrop-blur-md p-0.5 rounded-full border border-white/20 shadow-sm">
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setTipoVista("ilustrada");
-                  }}
+                  onClick={() => setTipoVista("ilustrada")}
                   className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[8px] sm:text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
                     tipoVista === "ilustrada"
                       ? "bg-[#ff1a2e] text-white shadow-md"
@@ -214,10 +208,7 @@ export default function SearchSection() {
                   Ilustradas
                 </button>
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setTipoVista("original");
-                  }}
+                  onClick={() => setTipoVista("original")}
                   className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[8px] sm:text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
                     tipoVista === "original"
                       ? "bg-[#ff1a2e] text-white shadow-md"
@@ -229,15 +220,12 @@ export default function SearchSection() {
               </div>
             </div>
 
-            {/* INDICADORES DE PAGINACIÓN */}
+            {/* INDICADORES DE PAGINACIÓN AISLADOS */}
             <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-10 pointer-events-auto">
               {paisesIlustraciones.map((item, idx) => (
                 <button
                   key={item.id}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setCurrentIndex(idx);
-                  }}
+                  onClick={() => setCurrentIndex(idx)}
                   className={`h-1.5 rounded-full transition-all duration-300 ${
                     currentIndex === idx
                       ? "w-6 bg-[#ff1a2e]"
