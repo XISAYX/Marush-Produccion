@@ -98,6 +98,8 @@ export default function Navbar() {
             animate={{
               opacity: isVisible ? 1 : 0,
               y: isVisible ? 0 : -20,
+              // ESTA LÍNEA ES LA MAGIA: Desactiva los toques cuando la barra es invisible
+              pointerEvents: isVisible ? "auto" : "none",
             }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.15, ease: "linear" }}
@@ -108,7 +110,6 @@ export default function Navbar() {
               onClick={() => {
                 setIsMobileMenuOpen(true);
                 document.body.style.overflow = "hidden";
-                // Restablecemos el evento para que oculte el contenido de atrás limpiamente
                 window.dispatchEvent(
                   new CustomEvent("locationModalState", {
                     detail: { isOpen: true },
@@ -213,7 +214,7 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* MENÚ MÓVIL FLOTANTE (DRAWER LATERAL CON EFECTO CRISTAL) */}
+      {/* MENÚ MÓVIL FLOTANTE */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <div className="fixed inset-0 z-50 bg-black/10 backdrop-blur-[2px] flex justify-start md:hidden transform-gpu">
@@ -406,32 +407,6 @@ export default function Navbar() {
                     e.target.src = "/logo-marush.png";
                   }}
                 />
-
-                <div className="absolute top-2 right-2 flex flex-col gap-1 bg-white/80 backdrop-blur-md p-1 rounded-xl border border-black/20 z-10 shadow-md">
-                  <button
-                    onClick={handleZoomIn}
-                    title="Acercar mapa"
-                    className="w-6 h-6 bg-black/10 hover:bg-black/20 text-black rounded-lg flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
-                  >
-                    +
-                  </button>
-                  <button
-                    onClick={handleZoomOut}
-                    title="Alejar mapa"
-                    className="w-6 h-6 bg-black/10 hover:bg-black/20 text-black rounded-lg flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
-                  >
-                    -
-                  </button>
-                  {mapScale !== 1 && (
-                    <button
-                      onClick={handleResetZoom}
-                      title="Restablecer vista"
-                      className="text-[8px] text-black hover:text-[#dc3545] px-0.5 py-0.5 rounded uppercase tracking-wider font-extrabold"
-                    >
-                      Reset
-                    </button>
-                  )}
-                </div>
               </div>
 
               <div className="text-center">
@@ -443,9 +418,6 @@ export default function Navbar() {
                   className="hover:opacity-90 text-white px-7 py-2.5 rounded-full font-bold text-xs tracking-wider uppercase transition-all shadow-xl no-underline inline-flex items-center justify-center gap-2 border border-white/25 backdrop-blur-md cursor-pointer"
                 >
                   <span>Ver en Google Maps</span>
-                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                    <path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7z" />
-                  </svg>
                 </a>
               </div>
             </motion.div>
