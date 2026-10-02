@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Hero() {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const videoRef = useRef(null);
 
   useEffect(() => {
     const handleLocationState = (e) => {
@@ -10,6 +11,14 @@ export default function Hero() {
     };
 
     window.addEventListener("locationModalState", handleLocationState);
+
+    // Forzar la reproducción programática para iPhone y navegadores móviles estrictos
+    if (videoRef.current) {
+      videoRef.current.play().catch((error) => {
+        console.log("Autoplay bloqueado por políticas de iOS:", error);
+      });
+    }
+
     return () => {
       window.removeEventListener("locationModalState", handleLocationState);
     };
@@ -25,19 +34,25 @@ export default function Hero() {
 
   return (
     <>
-      {/* CONTENEDOR DE FONDO CON VIDEO DE CLOUDINARY Y MÁXIMA VIVIDEZ */}
+      {/* CONTENEDOR DE FONDO CON REFERENCIA DE REPRODUCCIÓN MÓVIL */}
       <div className="fixed inset-0 w-full h-screen overflow-hidden -z-10 pointer-events-none transform-gpu bg-black">
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
           webkit-playsinline="true"
           preload="auto"
+          onCanPlay={(e) => {
+            e.target
+              .play()
+              .catch((err) => console.log("Play error on mobile:", err));
+          }}
           className="absolute inset-0 w-full h-full object-cover brightness-[1.15] saturate-[1.8] contrast-[1.2] filter transform-gpu will-change-transform scale-105"
         >
           <source
-            src="https://res.cloudinary.com/s9lrwmoh/video/upload/v1790807993/fondo-video.mp4"
+            src="https://res.cloudinary.com/s9lrwmoh/video/upload/f_auto,q_auto,vc_auto/v1790807993/fondo-video.mp4"
             type="video/mp4"
           />
           Tu navegador no soporta videos HTML5.
