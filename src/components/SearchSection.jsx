@@ -53,9 +53,8 @@ export default function SearchSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [textIndex, setTextIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [tipoVista, setTipoVista] = useState("ilustrada"); // "ilustrada" u "original"
+  const [tipoVista, setTipoVista] = useState("ilustrada");
 
-  // Cambio automático del carrusel cada 3 segundos
   useEffect(() => {
     if (isPaused) return;
     const landscapeInterval = setInterval(() => {
@@ -64,7 +63,6 @@ export default function SearchSection() {
     return () => clearInterval(landscapeInterval);
   }, [isPaused]);
 
-  // Cambio automático de los textos superiores cada 6 segundos
   useEffect(() => {
     if (isPaused) return;
     const textInterval = setInterval(() => {
@@ -91,11 +89,7 @@ export default function SearchSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center max-w-2xl mx-auto cursor-pointer flex flex-col items-center"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => setIsPaused(false)}
+          className="text-center max-w-2xl mx-auto flex flex-col items-center"
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -104,7 +98,7 @@ export default function SearchSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col items-center"
+              className="flex flex-col items-center px-2"
             >
               <span
                 className="text-[10px] sm:text-xs uppercase tracking-[0.4em] font-black block mb-2"
@@ -137,24 +131,23 @@ export default function SearchSection() {
           </div>
         </motion.div>
 
-        {/* TARJETA CENTRAL RESPONSIVA */}
+        {/* TARJETA CENTRAL RESPONSIVA CON LÍMITES EN LA PARTE INFERIOR */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => setIsPaused(false)}
-          className="rounded-[28px] p-5 sm:p-8 backdrop-blur-md flex flex-col items-center text-center gap-4 cursor-pointer transition-all w-full shadow-2xl"
+          className="rounded-[28px] p-5 sm:p-8 backdrop-blur-md flex flex-col items-center text-center gap-5 transition-all w-full shadow-2xl overflow-hidden"
           style={{
             backgroundColor: "rgba(255, 255, 255, 0.08)",
             border: "1px solid rgba(255, 255, 255, 0.35)",
           }}
         >
-          {/* CONTENEDOR DE IMAGEN */}
-          <div className="w-full h-64 sm:h-72 md:h-80 rounded-2xl overflow-hidden bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/10">
+          {/* CONTENEDOR DE IMAGEN (AQUÍ SE ACTIVA/DESACTIVA LA PAUSA AL HACER CLIC) */}
+          <div
+            onClick={() => setIsPaused(!isPaused)}
+            className="w-full h-64 sm:h-72 md:h-80 rounded-2xl overflow-hidden bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/10 cursor-pointer"
+          >
             <AnimatePresence mode="wait">
               <motion.img
                 key={`${itemActual.id}-${tipoVista}`}
@@ -174,9 +167,8 @@ export default function SearchSection() {
               />
             </AnimatePresence>
 
-            {/* BARRA SUPERIOR MINIMALISTA: Evita estorbar la imagen */}
+            {/* BARRA SUPERIOR MINIMALISTA */}
             <div className="absolute top-0 left-0 w-full p-2.5 sm:p-3 flex justify-between items-start z-20 pointer-events-none">
-              {/* ETIQUETA / INDICADOR DE PAUSA (Pequeño y elegante) */}
               <span
                 className={`pointer-events-auto backdrop-blur-md text-white text-[8px] sm:text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full border transition-all duration-300 ${
                   isPaused
@@ -184,10 +176,9 @@ export default function SearchSection() {
                     : "bg-black/40 border-white/20"
                 }`}
               >
-                {isPaused ? "⏸ Pausado" : itemActual.tag}
+                {isPaused ? "PAUSADO" : itemActual.tag}
               </span>
 
-              {/* BOTONES DE CAMBIO DE VISTA (Pequeños, no se estiran) */}
               <div className="pointer-events-auto flex items-center bg-black/40 backdrop-blur-md p-0.5 rounded-full border border-white/20 shadow-sm">
                 <button
                   onClick={(e) => {
@@ -218,8 +209,8 @@ export default function SearchSection() {
               </div>
             </div>
 
-            {/* INDICADORES DE PAGINACIÓN DE PAISAJES */}
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-10">
+            {/* INDICADORES DE PAGINACIÓN */}
+            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-10 pointer-events-auto">
               {paisesIlustraciones.map((item, idx) => (
                 <button
                   key={item.id}
@@ -238,7 +229,8 @@ export default function SearchSection() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center text-center gap-1.5 w-full mt-1">
+          {/* TEXTO INFERIOR (Con límites y márgenes ajustados) */}
+          <div className="flex flex-col items-center text-center gap-2 w-full mt-1 px-2 pb-2">
             <span
               className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] font-extrabold"
               style={{ color: "#ff1a2e" }}
