@@ -212,18 +212,18 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* MENÚ MÓVIL */}
+      {/* MENÚ MÓVIL FLOTANTE CRISTALINO (NO CUBRE TODA LA PANTALLA) */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <div className="fixed inset-0 z-50 bg-transparent flex justify-center items-center p-4 md:hidden transform-gpu">
+          <div className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm flex justify-center items-center p-4 md:hidden transform-gpu">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 30 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="border rounded-3xl max-w-sm w-full p-6 sm:p-8 text-black shadow-2xl backdrop-blur-2xl relative flex flex-col items-center gap-5 text-center transform-gpu will-change-transform overflow-hidden"
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="border rounded-3xl max-w-xs w-full p-6 text-black shadow-2xl backdrop-blur-2xl relative flex flex-col items-center gap-4 text-center transform-gpu will-change-transform overflow-hidden"
               style={{
-                backgroundColor: "rgba(255, 255, 255, 0.15)",
+                backgroundColor: "rgba(255, 255, 255, 0.25)",
                 borderColor: brandColors.border,
               }}
             >
@@ -237,7 +237,7 @@ export default function Navbar() {
                     }),
                   );
                 }}
-                className="absolute top-4 right-4 bg-black/10 hover:bg-black/20 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border border-black/20 text-black cursor-pointer transition-all"
+                className="absolute top-3.5 right-3.5 bg-black/10 hover:bg-black/20 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border border-black/20 text-black cursor-pointer transition-all"
               >
                 ✕
               </button>
@@ -245,19 +245,19 @@ export default function Navbar() {
               <div className="mt-1">
                 <span
                   style={{ color: brandColors.accentRed }}
-                  className="text-[10px] uppercase tracking-[0.4em] font-black block"
+                  className="text-[9px] uppercase tracking-[0.3em] font-black block"
                 >
                   Navegación
                 </span>
                 <h3
                   style={{ color: brandColors.title }}
-                  className="font-sans text-2xl font-black tracking-tight mt-1"
+                  className="font-sans text-xl font-black tracking-tight mt-0.5"
                 >
                   Menú Principal
                 </h3>
               </div>
 
-              <div className="flex flex-col gap-2.5 text-sm font-bold text-black w-full">
+              <div className="flex flex-col gap-2 text-xs font-bold text-black w-full">
                 <a
                   href="#home"
                   onClick={() => {
@@ -269,7 +269,7 @@ export default function Navbar() {
                       }),
                     );
                   }}
-                  className="py-2.5 px-4 rounded-xl bg-white/[0.05] border border-white/25 hover:bg-white/[0.1] transition-colors shadow-sm text-black no-underline"
+                  className="py-2.5 px-4 rounded-xl bg-white/[0.08] border border-white/30 hover:bg-white/[0.15] transition-colors shadow-sm text-black no-underline"
                 >
                   Inicio
                 </a>
@@ -284,7 +284,7 @@ export default function Navbar() {
                       }),
                     );
                   }}
-                  className="py-2.5 px-4 rounded-xl bg-white/[0.05] border border-white/25 hover:bg-white/[0.1] transition-colors shadow-sm text-black no-underline"
+                  className="py-2.5 px-4 rounded-xl bg-white/[0.08] border border-white/30 hover:bg-white/[0.15] transition-colors shadow-sm text-black no-underline"
                 >
                   ¿Quiénes somos?
                 </a>
@@ -299,7 +299,7 @@ export default function Navbar() {
                       }),
                     );
                   }}
-                  className="py-2.5 px-4 rounded-xl bg-white/[0.05] border border-white/25 hover:bg-white/[0.1] transition-colors shadow-sm text-black no-underline"
+                  className="py-2.5 px-4 rounded-xl bg-white/[0.08] border border-white/30 hover:bg-white/[0.15] transition-colors shadow-sm text-black no-underline"
                 >
                   Productos
                 </a>
@@ -314,7 +314,7 @@ export default function Navbar() {
                       }),
                     );
                   }}
-                  className="py-2.5 px-4 rounded-xl bg-white/[0.05] border border-white/25 hover:bg-white/[0.1] transition-colors shadow-sm text-black no-underline"
+                  className="py-2.5 px-4 rounded-xl bg-white/[0.08] border border-white/30 hover:bg-white/[0.15] transition-colors shadow-sm text-black no-underline"
                 >
                   Contacto
                 </a>
@@ -324,7 +324,7 @@ export default function Navbar() {
                     handleOpenAvesModal();
                   }}
                   style={{ color: "#000000" }}
-                  className="py-2.5 px-4 rounded-xl bg-white/[0.05] border border-white/25 font-black hover:bg-white/[0.1] transition-colors cursor-pointer w-full text-center shadow-sm"
+                  className="py-2.5 px-4 rounded-xl bg-white/[0.08] border border-white/30 font-black hover:bg-white/[0.15] transition-colors cursor-pointer w-full text-center shadow-sm"
                 >
                   Aves Residentes
                 </button>
@@ -337,7 +337,7 @@ export default function Navbar() {
       {/* MODAL DE UBICACIÓN */}
       <AnimatePresence>
         {isLocationModalOpen && (
-          <div className="fixed inset-0 z-50 bg-transparent flex justify-center items-center p-4 overflow-hidden transform-gpu">
+          <div className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm flex justify-center items-center p-4 overflow-hidden transform-gpu">
             <motion.div
               initial={{ opacity: 0, scale: 0.85, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -345,7 +345,7 @@ export default function Navbar() {
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="border rounded-3xl max-w-md w-full p-6 text-black shadow-2xl backdrop-blur-2xl relative transform-gpu will-change-transform overflow-hidden"
               style={{
-                backgroundColor: "rgba(255, 255, 255, 0.15)",
+                backgroundColor: "rgba(255, 255, 255, 0.25)",
                 borderColor: brandColors.border,
               }}
             >
