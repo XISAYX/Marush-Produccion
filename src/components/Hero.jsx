@@ -48,7 +48,6 @@ export default function Hero() {
 
   return (
     <>
-      {/* CAPA DE FONDO ESTABLE ANTI-PARPADEO (GPU OPTIMIZADA) */}
       <div
         className="fixed inset-0 w-full h-[100dvh] overflow-hidden -z-10 pointer-events-none bg-black"
         style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
@@ -74,7 +73,6 @@ export default function Hero() {
           Tu navegador no soporta videos HTML5.
         </video>
 
-        {/* Capa sutil anti-parpadeo para proteger la lectura */}
         <div className="absolute inset-0 bg-black/25 pointer-events-none" />
       </div>
 
@@ -100,7 +98,7 @@ export default function Hero() {
               <motion.div
                 initial={{ opacity: 0, y: -15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.15 }}
+                viewport={{ once: true, amount: 0.15 }} // Cambiado a true para evitar parpadeos
                 transition={{
                   duration: 0.5,
                   delay: 0.05,
@@ -126,7 +124,7 @@ export default function Hero() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.92 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: false, amount: 0.15 }}
+                viewport={{ once: true, amount: 0.15 }} // Cambiado a true para evitar parpadeos
                 transition={{
                   duration: 0.6,
                   delay: 0.15,
@@ -141,13 +139,16 @@ export default function Hero() {
                   width="384"
                   height="150"
                   className="w-56 sm:w-72 md:w-96 object-contain filter invert transition-transform duration-700 group-hover:scale-105"
+                  onError={(e) => {
+                    e.target.src = "/logo-marush.png";
+                  }}
                 />
               </motion.div>
 
               <motion.p
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.15 }}
+                viewport={{ once: true, amount: 0.15 }} // Cambiado a true para evitar parpadeos
                 transition={{
                   duration: 0.5,
                   delay: 0.25,
@@ -163,7 +164,7 @@ export default function Hero() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.15 }}
+                viewport={{ once: true, amount: 0.15 }} // Cambiado a true para evitar parpadeos
                 transition={{
                   duration: 0.5,
                   delay: 0.35,
