@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import AvesModal from "./AvesModal";
 
 const brandColors = {
   title: "#000000",
@@ -12,7 +11,6 @@ const brandColors = {
 
 export default function Navbar() {
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
-  const [isAvesModalOpen, setIsAvesModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const [isVisible, setIsVisible] = useState(true);
@@ -66,22 +64,6 @@ export default function Navbar() {
     );
   };
 
-  const handleOpenAvesModal = () => {
-    setIsAvesModalOpen(true);
-    document.body.style.overflow = "hidden";
-    window.dispatchEvent(
-      new CustomEvent("locationModalState", { detail: { isOpen: true } }),
-    );
-  };
-
-  const handleCloseAvesModal = () => {
-    setIsAvesModalOpen(false);
-    document.body.style.overflow = "auto";
-    window.dispatchEvent(
-      new CustomEvent("locationModalState", { detail: { isOpen: false } }),
-    );
-  };
-
   const googleMapsUrl =
     "https://maps.google.com/?q=Barranca+de+Metztitlan+Hidalgo";
 
@@ -92,14 +74,12 @@ export default function Navbar() {
   return (
     <>
       <AnimatePresence>
-        {!isLocationModalOpen && !isAvesModalOpen && !isMobileMenuOpen && (
+        {!isLocationModalOpen && !isMobileMenuOpen && (
           <motion.nav
             initial={{ opacity: 1, y: 0 }}
             animate={{
               opacity: isVisible ? 1 : 0,
               y: isVisible ? 0 : -20,
-              // ESTA LÍNEA ES LA MAGIA: Desactiva los toques cuando la barra es invisible
-              pointerEvents: isVisible ? "auto" : "none",
             }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.15, ease: "linear" }}
@@ -170,13 +150,6 @@ export default function Navbar() {
               >
                 Contacto
               </a>
-              <button
-                onClick={handleOpenAvesModal}
-                className="px-3.5 py-1.5 rounded-full font-bold text-xs transition-all hover:bg-white/5 cursor-pointer bg-transparent border-none"
-                style={{ color: "#000000" }}
-              >
-                Aves Residentes
-              </button>
             </div>
 
             {/* BOTÓN DE UBICACIÓN CRISTALINO Y TRANSPARENTE */}
@@ -214,54 +187,52 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      {/* MENÚ MÓVIL FLOTANTE */}
+      {/* MENÚ MÓVIL */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <div className="fixed inset-0 z-50 bg-black/10 backdrop-blur-[2px] flex justify-start md:hidden transform-gpu">
+          <div className="fixed inset-0 z-50 bg-transparent flex justify-center items-center p-4 md:hidden transform-gpu">
             <motion.div
-              initial={{ x: "-100%", opacity: 0 }}
-              animate={{ x: "0%", opacity: 1 }}
-              exit={{ x: "-100%", opacity: 0 }}
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 30 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="m-3 h-[calc(100vh-1.5rem)] w-72 p-6 text-black shadow-2xl backdrop-blur-3xl relative flex flex-col gap-6 transform-gpu will-change-transform rounded-3xl border"
+              className="border rounded-3xl max-w-sm w-full p-6 sm:p-8 text-black shadow-2xl backdrop-blur-2xl relative flex flex-col items-center gap-5 text-center transform-gpu will-change-transform overflow-hidden"
               style={{
-                backgroundColor: "rgba(255, 255, 255, 0.12)",
+                backgroundColor: "rgba(255, 255, 255, 0.15)",
                 borderColor: brandColors.border,
               }}
             >
-              <div className="flex justify-between items-center mt-1">
-                <div>
-                  <span
-                    style={{ color: brandColors.accentRed }}
-                    className="text-[9px] uppercase tracking-[0.3em] font-black block"
-                  >
-                    Navegación
-                  </span>
-                  <h3
-                    style={{ color: brandColors.title }}
-                    className="font-sans text-xl font-black tracking-tight mt-0.5"
-                  >
-                    Menú Principal
-                  </h3>
-                </div>
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  document.body.style.overflow = "auto";
+                  window.dispatchEvent(
+                    new CustomEvent("locationModalState", {
+                      detail: { isOpen: false },
+                    }),
+                  );
+                }}
+                className="absolute top-4 right-4 bg-black/10 hover:bg-black/20 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border border-black/20 text-black cursor-pointer transition-all"
+              >
+                ✕
+              </button>
 
-                <button
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    document.body.style.overflow = "auto";
-                    window.dispatchEvent(
-                      new CustomEvent("locationModalState", {
-                        detail: { isOpen: false },
-                      }),
-                    );
-                  }}
-                  className="bg-black/10 hover:bg-black/20 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border border-black/20 text-black cursor-pointer transition-all"
+              <div className="mt-1">
+                <span
+                  style={{ color: brandColors.accentRed }}
+                  className="text-[10px] uppercase tracking-[0.4em] font-black block"
                 >
-                  ✕
-                </button>
+                  Navegación
+                </span>
+                <h3
+                  style={{ color: brandColors.title }}
+                  className="font-sans text-2xl font-black tracking-tight mt-1"
+                >
+                  Menú Principal
+                </h3>
               </div>
 
-              <div className="flex flex-col gap-2.5 text-xs font-bold text-black w-full mt-2">
+              <div className="flex flex-col gap-2.5 text-sm font-bold text-black w-full">
                 <a
                   href="#home"
                   onClick={() => {
@@ -273,7 +244,7 @@ export default function Navbar() {
                       }),
                     );
                   }}
-                  className="py-3 px-4 rounded-2xl bg-white/[0.05] border border-white/20 hover:bg-white/[0.25] hover:scale-[1.02] active:scale-95 transition-all shadow-sm text-black no-underline"
+                  className="py-2.5 px-4 rounded-xl bg-white/[0.05] border border-white/25 hover:bg-white/[0.1] transition-colors shadow-sm text-black no-underline"
                 >
                   Inicio
                 </a>
@@ -288,7 +259,7 @@ export default function Navbar() {
                       }),
                     );
                   }}
-                  className="py-3 px-4 rounded-2xl bg-white/[0.05] border border-white/20 hover:bg-white/[0.25] hover:scale-[1.02] active:scale-95 transition-all shadow-sm text-black no-underline"
+                  className="py-2.5 px-4 rounded-xl bg-white/[0.05] border border-white/25 hover:bg-white/[0.1] transition-colors shadow-sm text-black no-underline"
                 >
                   ¿Quiénes somos?
                 </a>
@@ -303,7 +274,7 @@ export default function Navbar() {
                       }),
                     );
                   }}
-                  className="py-3 px-4 rounded-2xl bg-white/[0.05] border border-white/20 hover:bg-white/[0.25] hover:scale-[1.02] active:scale-95 transition-all shadow-sm text-black no-underline"
+                  className="py-2.5 px-4 rounded-xl bg-white/[0.05] border border-white/25 hover:bg-white/[0.1] transition-colors shadow-sm text-black no-underline"
                 >
                   Productos
                 </a>
@@ -318,20 +289,10 @@ export default function Navbar() {
                       }),
                     );
                   }}
-                  className="py-3 px-4 rounded-2xl bg-white/[0.05] border border-white/20 hover:bg-white/[0.25] hover:scale-[1.02] active:scale-95 transition-all shadow-sm text-black no-underline"
+                  className="py-2.5 px-4 rounded-xl bg-white/[0.05] border border-white/25 hover:bg-white/[0.1] transition-colors shadow-sm text-black no-underline"
                 >
                   Contacto
                 </a>
-                <button
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    handleOpenAvesModal();
-                  }}
-                  style={{ color: "#000000" }}
-                  className="py-3 px-4 rounded-2xl bg-white/[0.05] border border-white/20 font-black hover:bg-white/[0.25] hover:scale-[1.02] active:scale-95 transition-all cursor-pointer w-full text-center shadow-sm"
-                >
-                  Aves Residentes
-                </button>
               </div>
             </motion.div>
           </div>
@@ -341,7 +302,7 @@ export default function Navbar() {
       {/* MODAL DE UBICACIÓN */}
       <AnimatePresence>
         {isLocationModalOpen && (
-          <div className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm flex justify-center items-center p-4 overflow-hidden transform-gpu">
+          <div className="fixed inset-0 z-50 bg-transparent flex justify-center items-center p-4 overflow-hidden transform-gpu">
             <motion.div
               initial={{ opacity: 0, scale: 0.85, y: 30 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -349,7 +310,7 @@ export default function Navbar() {
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="border rounded-3xl max-w-md w-full p-6 text-black shadow-2xl backdrop-blur-2xl relative transform-gpu will-change-transform overflow-hidden"
               style={{
-                backgroundColor: "rgba(255, 255, 255, 0.25)",
+                backgroundColor: "rgba(255, 255, 255, 0.15)",
                 borderColor: brandColors.border,
               }}
             >
@@ -407,6 +368,32 @@ export default function Navbar() {
                     e.target.src = "/logo-marush.png";
                   }}
                 />
+
+                <div className="absolute top-2 right-2 flex flex-col gap-1 bg-white/80 backdrop-blur-md p-1 rounded-xl border border-black/20 z-10 shadow-md">
+                  <button
+                    onClick={handleZoomIn}
+                    title="Acercar mapa"
+                    className="w-6 h-6 bg-black/10 hover:bg-black/20 text-black rounded-lg flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
+                  >
+                    +
+                  </button>
+                  <button
+                    onClick={handleZoomOut}
+                    title="Alejar mapa"
+                    className="w-6 h-6 bg-black/10 hover:bg-black/20 text-black rounded-lg flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
+                  >
+                    -
+                  </button>
+                  {mapScale !== 1 && (
+                    <button
+                      onClick={handleResetZoom}
+                      title="Restablecer vista"
+                      className="text-[8px] text-black hover:text-[#dc3545] px-0.5 py-0.5 rounded uppercase tracking-wider font-extrabold"
+                    >
+                      Reset
+                    </button>
+                  )}
+                </div>
               </div>
 
               <div className="text-center">
@@ -418,15 +405,14 @@ export default function Navbar() {
                   className="hover:opacity-90 text-white px-7 py-2.5 rounded-full font-bold text-xs tracking-wider uppercase transition-all shadow-xl no-underline inline-flex items-center justify-center gap-2 border border-white/25 backdrop-blur-md cursor-pointer"
                 >
                   <span>Ver en Google Maps</span>
+                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                    <path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7z" />
+                  </svg>
                 </a>
               </div>
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {isAvesModalOpen && <AvesModal onClose={handleCloseAvesModal} />}
       </AnimatePresence>
     </>
   );
