@@ -157,7 +157,7 @@ export default function Hero() {
                 className="text-base sm:text-lg md:text-xl font-light text-stone-100 italic max-w-2xl px-4 mx-auto"
                 style={{ backfaceVisibility: "hidden" }}
               >
-                Una Luz en la Penumbra Conservar para vivir.
+                Conservar Para Vivir
               </motion.p>
 
               {/* BOTÓN COMENZAR */}

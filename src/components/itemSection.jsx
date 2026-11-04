@@ -33,11 +33,69 @@ const productosList = [
   },
 ];
 
+const recorridosData = {
+  "Ruta 1": {
+    titulo: "Laguna de Metztitlán",
+    lema: "ESPEJO DE MIGRACIÓN: NUESTRAS AVES",
+    locacion: "Localidad de San Cristóbal, Metztitlán, Hidalgo",
+    duracion: "2-5 HRS",
+    participantes: "1 a 6 personas por grupo",
+    descripcion:
+      "Prepara tu cámara para disfrutar de un recorrido en lancha en la Laguna de Metztitlán, observando el imponente cañón de la barranca para contemplar visual o científicamente las aves residentes y migratorias que aquí anidan, encontrarás especies como el cuervo marino (cormorán), patos, garzas, águilas (águila pescadora), aguilillas, mártines pescador y el costero ibis blanco (Eudocimus albus), también si lo deseas desembarcarás para conocer vestigios del 'tajo', construcción y túneles de desfogue de la laguna.",
+    horario: "Por la mañana, salidas a acordar entre 6 y 9 am",
+    requisitos:
+      "Ropa cómoda, el equipo de seguridad y de observación ¡nosotros te lo prestamos!",
+    alimentos:
+      "A contratar el servicio de preparación de pescado frito al fin del recorrido (costo extra) (sujeto a disponibilidad)",
+    prohibido:
+      "Capturar, cazar, alimentar, retener o apropiarse de especies y derivados, así como flora y fauna silvestre y cualquier actividad que arriesgue o altere la integridad de los usuarios, la barranca y sus elementos. Prohibido portar y consumir alcohol y enervantes durante el recorrido.",
+    ilustracionImg: "/mockup-martin-pescador.webp",
+    imagen: "/mockup-pelicano.webp",
+  },
+  "Ruta 2": {
+    titulo: "Entre Cañones y Manantiales",
+    lema: "RELÁJATE, CHAPOTEA Y DISFRUTA!",
+    locacion:
+      "Localidades de San Pablo Tetlapayac, San Pedro Ayotlaxtola, San Juan Tlatepexi, Metztitlán, Hidalgo",
+    duracion: "4-36 HRS",
+    participantes: "Desde 1 persona hasta 15 por grupo",
+    descripcion:
+      "Camina por entornos naturales, explora en compañía de aguas cristalinas y termales para relajarte y disfrutar de los bellos paisajes que brinda la reserva en su zona norte, escarpada por cañones, manantiales y ríos en los que podrás planear todo un día de actividades de tu interés y de naturaleza de bajo impacto, escenarios dignos de retratar en la memoria; esta región guarda condiciones únicas que permitieron la evolución de especies únicas en la reserva, mismas que podrás visitar con un guía acreditado quién te brindará información del porqué la fauna y flora que habita.",
+    horario: "De 6am a 6pm ó dos días de actividades y renta de cabañas",
+    requisitos:
+      "Mudas de ropa cómoda y acuática, el equipo de observación nosotros te lo prestamos! El equipo de seguridad se renta en instalaciones de sitios",
+    alimentos:
+      "A contratar previamente según las actividades a elegir con el guía acreditado",
+    prohibido:
+      "Capturar, cazar, alimentar, retener o apropiarse de especies silvestres, derivados, elementos naturales y cualquier actividad que arriesgue o altere la integridad de los usuarios, los ecosistemas y sus flujos dendroenergéticos.",
+    ilustracionImg: "/twoi.png",
+    imagen: "/mockup-pelicano.webp",
+  },
+  "Ruta 3": {
+    titulo: "Museo Vivo de Cactáceas",
+    lema: "BIENVENIDO A LA RESERVA",
+    locacion: "Municipio de Metztitlán, Hidalgo",
+    duracion: "40min-3 HRS",
+    participantes: "Desde 1 persona hasta 30 por grupo",
+    descripcion:
+      "Bienvenido a la reserva de la biosfera barranca de Metztitlán, programa tu visita y conoce a la mayoría de las especies más emblemáticas de la reserva como los viejitos y la biznaga gigante; en campaña de nuestros guías especializados, en esta porción de matorral xerófilo podrás realizar tus prácticas académicas y exponer tu interés por la conservación.",
+    horario: "De 9am a 5pm y horarios especiales en fines de semana",
+    requisitos:
+      "Ropa cómoda, el equipo de observación nosotros te lo prestamos!",
+    alimentos:
+      "Te encuentras en la cabecera del municipio de Metztitlán, recuerda traer hidratación si eliges un recorrido.",
+    prohibido:
+      "Manipular, alimentar, retener o apropiarse de especies silvestres, derivados, elementos naturales y cualquier actividad que arriesgue o altere la integridad de los usuarios.",
+    ilustracionImg: "/logo-marush.png",
+    imagen: "/mockup-pelicano.webp",
+  },
+};
+
 export default function ItemSection() {
   const [modalContent, setModalContent] = useState(null);
 
-  const handleOpenModal = (titulo, descripcion, imagen) => {
-    setModalContent({ titulo, descripcion, imagen });
+  const handleOpenModal = (data) => {
+    setModalContent(data);
     document.body.style.overflow = "hidden";
     window.dispatchEvent(
       new CustomEvent("locationModalState", { detail: { isOpen: true } }),
@@ -55,202 +113,309 @@ export default function ItemSection() {
   return (
     <section
       id="productos"
-      className="relative w-full py-20 px-4 sm:px-8 md:px-12 lg:px-16 z-10 bg-transparent flex flex-col items-center justify-center min-h-[80vh]"
+      className="relative w-full py-20 px-4 sm:px-8 md:px-12 lg:px-16 z-10 bg-transparent flex flex-col items-center justify-center min-h-screen"
     >
-      {/* ENCABEZADO CENTRADO (Se oculta al abrir el modal para dejar la pantalla limpia) */}
-      {!modalContent && (
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center max-w-2xl mx-auto mb-12 sm:mb-16 flex flex-col items-center"
+      {/* ENCABEZADO CENTRADO */}
+      <div
+        className={`text-center max-w-2xl mx-auto mb-12 sm:mb-16 flex flex-col items-center transition-all duration-300 ${
+          modalContent
+            ? "opacity-0 pointer-events-none select-none h-0 overflow-hidden mb-0"
+            : "opacity-100"
+        }`}
+      >
+        <span
+          className="text-[10px] uppercase tracking-[0.4em] font-black block mb-2"
+          style={{ color: "#ff1a2e" }}
         >
-          <span
-            className="text-[10px] uppercase tracking-[0.4em] font-black block mb-2"
-            style={{ color: "#ff1a2e" }}
+          Colección Oficial
+        </span>
+        <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+          Nuestros Productos
+        </h2>
+        <p className="text-xs sm:text-sm text-black font-semibold mt-2 leading-relaxed max-w-xl text-center">
+          Indumentaria textil diseñada para conectar con la naturaleza, honrando
+          la biodiversidad de la Sierra y la Barranca.
+        </p>
+      </div>
+
+      {/* CUADRÍCULA DE 3 TARJETAS */}
+      <div
+        className={`max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-3 grid-rows-1 gap-6 lg:gap-8 items-stretch justify-items-center transition-all duration-300 ${
+          modalContent
+            ? "opacity-0 pointer-events-none select-none h-0 overflow-hidden"
+            : "opacity-100"
+        }`}
+      >
+        {productosList.map((producto, index) => (
+          <motion.div
+            key={producto.id}
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.15 }}
+            transition={{
+              duration: 0.6,
+              delay: index * 0.1,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            whileHover={{ y: -6, transition: { duration: 0.2 } }}
+            className="rounded-[32px] p-6 sm:p-8 flex flex-col justify-between backdrop-blur-md w-full shadow-2xl h-full"
+            style={{
+              backgroundColor: "rgba(255, 255, 255, 0.08)",
+              border: "1px solid rgba(255, 255, 255, 0.35)",
+            }}
           >
-            Colección Oficial
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-            Nuestros Productos
-          </h2>
-          <p className="text-xs sm:text-sm text-black font-semibold mt-2 leading-relaxed max-w-xl text-center">
-            Indumentaria textil diseñada para conectar con la naturaleza,
-            honrando la biodiversidad de la Sierra y la Barranca.
-          </p>
-        </motion.div>
-      )}
-
-      {/* CUADRÍCULA DE 3 TARJETAS (Se oculta por completo cuando el modal está abierto) */}
-      {!modalContent && (
-        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-3 grid-rows-1 gap-6 lg:gap-8 items-stretch justify-items-center">
-          {productosList.map((producto, index) => (
-            <motion.div
-              key={producto.id}
-              initial={{ opacity: 0, y: 35 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.15 }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.1,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              whileHover={{ y: -6, transition: { duration: 0.2 } }}
-              className="rounded-[32px] p-6 sm:p-8 flex flex-col justify-between backdrop-blur-md w-full shadow-2xl h-full"
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.08)",
-                border: "1px solid rgba(255, 255, 255, 0.35)",
-              }}
-            >
-              <div>
-                <div className="w-full h-72 sm:h-80 rounded-2xl overflow-hidden mb-6 bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/15">
-                  <img
-                    src={producto.imagen}
-                    alt={producto.titulo}
-                    width="600"
-                    height="600"
-                    loading="lazy"
-                    className="w-full h-full object-cover rounded-xl shadow-md transition-transform duration-700 hover:scale-105"
-                    onError={(e) => {
-                      e.target.src = "/logo-marush.png";
-                    }}
-                  />
-                  <span className="absolute top-4 left-4 bg-black/50 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-white/20 z-10">
-                    {producto.categoria}
-                  </span>
-                </div>
-
-                <div className="text-left flex flex-col gap-3 my-2">
-                  <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                    {producto.titulo}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-black font-semibold leading-relaxed">
-                    {producto.descripcion}
-                  </p>
-                </div>
+            <div>
+              <div className="w-full h-72 sm:h-80 rounded-2xl overflow-hidden mb-6 bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/15">
+                <img
+                  src={producto.imagen}
+                  alt={producto.titulo}
+                  width="600"
+                  height="600"
+                  loading="lazy"
+                  className="w-full h-full object-cover rounded-xl shadow-md transition-transform duration-700 hover:scale-105"
+                  onError={(e) => {
+                    e.target.src = "/logo-marush.png";
+                  }}
+                />
+                <span className="absolute top-4 left-4 bg-black/50 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-white/20 z-10">
+                  {producto.categoria}
+                </span>
               </div>
 
-              {/* PIE DE TARJETA CON BOTONES */}
-              <div className="mt-6 pt-4 border-t border-white/20 flex justify-between items-center gap-2">
-                <span
-                  className="text-[10px] font-extrabold uppercase tracking-widest"
-                  style={{ color: "#ff1a2e" }}
+              <div className="text-left flex flex-col gap-3 my-2">
+                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  {producto.titulo}
+                </h3>
+                <p className="text-xs sm:text-sm text-black font-semibold leading-relaxed">
+                  {producto.descripcion}
+                </p>
+              </div>
+            </div>
+
+            {/* PIE DE TARJETA CON BOTONES */}
+            <div className="mt-6 pt-4 border-t border-white/20 flex justify-between items-center gap-2">
+              <span
+                className="text-[10px] font-extrabold uppercase tracking-widest"
+                style={{ color: "#ff1a2e" }}
+              >
+                {producto.tipo === "tres-botones"
+                  ? "Explorar Senderos"
+                  : producto.tipo === "sin-boton"
+                    ? "Gestión Autorizada"
+                    : "Colección Textil"}
+              </span>
+
+              {producto.tipo === "boton-simple" && (
+                <button
+                  onClick={() =>
+                    handleOpenModal({
+                      categoria: producto.categoria,
+                      titulo: producto.titulo,
+                      lema: "COLECCIÓN OFICIAL",
+                      locacion: "Reserva de la Biosfera Barranca de Metztitlán",
+                      duracion: "Permanente",
+                      participantes: "Todo público",
+                      descripcion: producto.descripcion,
+                      horario: "Disponible 24/7",
+                      requisitos: "Ninguno",
+                      alimentos: "N/A",
+                      prohibido: "N/A",
+                      ilustracionImg: producto.imagen,
+                      imagen: producto.imagen,
+                    })
+                  }
+                  className="bg-white/10 hover:bg-white/25 text-black font-extrabold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition-all border border-white/40 cursor-pointer backdrop-blur-md shadow-sm"
                 >
-                  {producto.tipo === "tres-botones"
-                    ? "Explorar Senderos"
-                    : producto.tipo === "sin-boton"
-                      ? "Gestión Autorizada"
-                      : "Colección Textil"}
-                </span>
+                  {producto.textoBoton}
+                </button>
+              )}
 
-                {/* Botón Ver Productos */}
-                {producto.tipo === "boton-simple" && (
-                  <button
-                    onClick={() =>
-                      handleOpenModal(
-                        producto.titulo,
-                        producto.descripcion,
-                        producto.imagen,
-                      )
-                    }
-                    className="bg-white/10 hover:bg-white/25 text-black font-extrabold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition-all border border-white/40 cursor-pointer backdrop-blur-md shadow-sm"
-                  >
-                    {producto.textoBoton}
-                  </button>
-                )}
-
-                {/* Botones Ruta 1, Ruta 2, Ruta 3 */}
-                {producto.tipo === "tres-botones" && (
-                  <div className="flex gap-1.5">
-                    {producto.botones.map((ruta, i) => (
+              {producto.tipo === "tres-botones" && (
+                <div className="flex gap-1.5">
+                  {producto.botones.map((rutaNombre, i) => {
+                    const datosRuta = recorridosData[rutaNombre];
+                    return (
                       <button
                         key={i}
                         onClick={() =>
-                          handleOpenModal(
-                            `Detalles de ${ruta}: ${producto.titulo}`,
-                            `Información exclusiva, puntos de control y guías interpretativas correspondientes a la ${ruta} en la Reserva de la Biosfera Barranca de Metztitlán.`,
-                            producto.imagen,
-                          )
+                          handleOpenModal({
+                            categoria: `RECORRIDO ${i + 1}`,
+                            titulo: datosRuta.titulo,
+                            lema: datosRuta.lema,
+                            locacion: datosRuta.locacion,
+                            duracion: datosRuta.duracion,
+                            participantes: datosRuta.participantes,
+                            descripcion: datosRuta.descripcion,
+                            horario: datosRuta.horario,
+                            requisitos: datosRuta.requisitos,
+                            alimentos: datosRuta.alimentos,
+                            prohibido: datosRuta.prohibido,
+                            ilustracionImg: datosRuta.ilustracionImg,
+                            imagen: datosRuta.imagen,
+                          })
                         }
                         className="bg-white/10 hover:bg-white/25 text-black font-extrabold px-2.5 py-2 rounded-full text-[10px] uppercase tracking-wider transition-all border border-white/40 cursor-pointer backdrop-blur-md shadow-sm text-center min-w-[50px]"
                       >
-                        {ruta}
+                        {rutaNombre}
                       </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      )}
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </motion.div>
+        ))}
+      </div>
 
-      {/* VENTANA MODAL FLOTANTE (Aparece sola y limpia en el centro) */}
+      {/* VENTANA MODAL FIJA Y CENTRADA CON FONDO COMPLETAMENTE TRANSPARENTE */}
       <AnimatePresence>
         {modalContent && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[99999] bg-transparent flex justify-center items-center p-4 overflow-y-auto transform-gpu"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="fixed inset-0 z-[99999] bg-transparent flex justify-center items-center p-4 pointer-events-auto"
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85, y: 30 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.85, y: 30 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="border rounded-3xl max-w-md w-full p-6 text-black shadow-2xl backdrop-blur-2xl relative transform-gpu will-change-transform overflow-hidden my-auto"
+            <div
+              className="border rounded-[36px] w-full max-w-4xl max-h-[85vh] p-6 sm:p-10 text-black shadow-2xl backdrop-blur-2xl relative transform-gpu will-change-transform flex flex-col gap-6 overflow-y-auto"
               style={{
-                backgroundColor: "rgba(255, 255, 255, 0.15)",
-                borderColor: "rgba(255, 255, 255, 0.25)",
+                backgroundColor: "rgba(255, 255, 255, 0.18)",
+                borderColor: "rgba(255, 255, 255, 0.35)",
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
               }}
             >
-              <div className="flex justify-between items-center mb-3">
+              {/* ENCABEZADO DENTRO DE SU CAJA */}
+              <div className="flex justify-between items-start bg-white/10 p-5 rounded-2xl border border-white/25 relative">
                 <div>
                   <span
                     style={{ color: "#dc3545" }}
-                    className="text-[10px] uppercase tracking-[0.4em] font-black block"
+                    className="text-[11px] uppercase tracking-[0.4em] font-black block mb-1"
                   >
-                    Información Detallada
+                    {modalContent.categoria} — {modalContent.lema}
                   </span>
-                  <h3 className="text-2xl sm:text-3xl font-black mt-1 tracking-tight font-sans text-black">
+                  <h3 className="text-3xl sm:text-4xl font-black tracking-tight text-black drop-shadow-sm font-sans">
                     {modalContent.titulo}
                   </h3>
                 </div>
 
                 <button
                   onClick={handleCloseModal}
-                  className="bg-black/10 hover:bg-black/20 w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold border border-black/20 cursor-pointer transition-all shadow-sm text-black"
+                  className="bg-black/10 hover:bg-black/20 w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold border border-black/20 cursor-pointer transition-all shadow-sm text-black shrink-0"
                 >
                   ✕
                 </button>
               </div>
 
-              <p className="text-xs sm:text-sm leading-relaxed mb-4 font-semibold text-[#1C1917]">
-                {modalContent.descripcion}
-              </p>
-
-              <div className="w-48 h-48 sm:w-56 sm:h-56 mx-auto relative mb-5 flex items-center justify-center overflow-hidden rounded-[24px] shadow-lg border border-white/30 bg-white/5">
+              {/* ESPACIO MULTIMEDIA PRINCIPAL */}
+              <div className="w-full h-72 sm:h-96 rounded-3xl overflow-hidden shadow-2xl border border-white/30 bg-black/10 relative group">
                 <img
                   src={modalContent.imagen}
                   alt={modalContent.titulo}
-                  width="224"
-                  height="224"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent flex items-end p-5">
+                  <span className="text-[10px] uppercase tracking-widest text-white font-bold bg-black/40 px-4 py-1.5 rounded-full backdrop-blur-md border border-white/20">
+                    Multimedia / Vista Previa
+                  </span>
+                </div>
               </div>
 
-              <div className="text-center">
-                <button
-                  onClick={handleCloseModal}
-                  style={{ backgroundColor: "#0056b3" }}
-                  className="hover:opacity-90 text-white px-7 py-2.5 rounded-full font-bold text-xs tracking-wider uppercase transition-all shadow-xl border border-white/25 backdrop-blur-md cursor-pointer"
-                >
-                  Cerrar Ventana
-                </button>
+              {/* CAJAS ORIGINALES PARA DATOS TÉCNICOS */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white/10 p-5 rounded-2xl border border-white/25 text-xs font-semibold text-[#1C1917]">
+                <div>
+                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
+                    Locación:
+                  </span>
+                  <p className="font-semibold text-sm text-black">
+                    {modalContent.locacion}
+                  </p>
+                </div>
+                <div>
+                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
+                    Duración Aprox:
+                  </span>
+                  <p className="font-semibold text-sm text-black">
+                    {modalContent.duracion}
+                  </p>
+                </div>
+                <div>
+                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
+                    Participantes:
+                  </span>
+                  <p className="font-semibold text-sm text-black">
+                    {modalContent.participantes}
+                  </p>
+                </div>
+                <div>
+                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
+                    Horario Sugerido:
+                  </span>
+                  <p className="font-semibold text-sm text-black">
+                    {modalContent.horario}
+                  </p>
+                </div>
               </div>
-            </motion.div>
+
+              {/* DESCRIPCIÓN */}
+              <div>
+                <h4 className="font-black text-xs uppercase tracking-wider text-black mb-2">
+                  Descripción:
+                </h4>
+                <p className="text-sm sm:text-base leading-relaxed font-semibold text-[#1C1917]">
+                  {modalContent.descripcion}
+                </p>
+              </div>
+
+              {/* CAJAS ORIGINALES PARA REQUISITOS Y ALIMENTOS */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div className="bg-white/10 p-4 rounded-2xl border border-white/25">
+                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
+                    Requisitos:
+                  </span>
+                  <p className="font-semibold text-black text-xs sm:text-sm">
+                    {modalContent.requisitos}
+                  </p>
+                </div>
+                <div className="bg-white/10 p-4 rounded-2xl border border-white/25">
+                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
+                    Alimentos:
+                  </span>
+                  <p className="font-semibold text-black text-xs sm:text-sm">
+                    {modalContent.alimentos}
+                  </p>
+                </div>
+              </div>
+
+              {/* CAJA ROJA EXCLUSIVA PARA PROHIBIDO */}
+              {modalContent.prohibido !== "N/A" && (
+                <div className="bg-red-500/15 p-4 rounded-2xl border border-red-500/30 text-xs">
+                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
+                    Prohibido:
+                  </span>
+                  <p className="font-semibold text-black text-xs sm:text-sm leading-relaxed">
+                    {modalContent.prohibido}
+                  </p>
+                </div>
+              )}
+
+              {/* SECCIÓN DE ILUSTRACIÓN (FOTO) HASTA ABAJO */}
+              {modalContent.ilustracionImg && (
+                <div className="bg-white/10 p-5 rounded-2xl border border-white/25 flex flex-col gap-3">
+                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px]">
+                    Ilustración del Recorrido:
+                  </span>
+                  <div className="w-full h-64 sm:h-80 rounded-2xl overflow-hidden shadow-lg border border-white/20 bg-black/10">
+                    <img
+                      src={modalContent.ilustracionImg}
+                      alt="Ilustración del recorrido"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
