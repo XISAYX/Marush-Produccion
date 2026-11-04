@@ -113,11 +113,11 @@ export default function ItemSection() {
   return (
     <section
       id="productos"
-      className="relative w-full py-20 px-4 sm:px-8 md:px-12 lg:px-16 z-10 bg-transparent flex flex-col items-center justify-center min-h-screen"
+      className="relative w-full py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-16 z-10 bg-transparent flex flex-col items-center justify-center min-h-screen"
     >
       {/* ENCABEZADO CENTRADO */}
       <div
-        className={`text-center max-w-2xl mx-auto mb-12 sm:mb-16 flex flex-col items-center transition-all duration-300 ${
+        className={`text-center max-w-2xl mx-auto mb-10 sm:mb-14 flex flex-col items-center transition-all duration-300 ${
           modalContent
             ? "opacity-0 pointer-events-none select-none h-0 overflow-hidden mb-0"
             : "opacity-100"
@@ -129,18 +129,18 @@ export default function ItemSection() {
         >
           Colección Oficial
         </span>
-        <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight">
           Nuestros Productos
         </h2>
-        <p className="text-xs sm:text-sm text-black font-semibold mt-2 leading-relaxed max-w-xl text-center">
+        <p className="text-xs sm:text-sm text-black font-semibold mt-2 leading-relaxed max-w-xl text-center px-2">
           Indumentaria textil diseñada para conectar con la naturaleza, honrando
           la biodiversidad de la Sierra y la Barranca.
         </p>
       </div>
 
-      {/* CUADRÍCULA DE 3 TARJETAS */}
+      {/* CUADRÍCULA CON 3 TARJETAS EXACTAMENTE ALINEADAS Y SIMÉTRICAS */}
       <div
-        className={`max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-3 grid-rows-1 gap-6 lg:gap-8 items-stretch justify-items-center transition-all duration-300 ${
+        className={`max-w-7xl mx-auto w-full grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8 items-stretch justify-items-center transition-all duration-300 ${
           modalContent
             ? "opacity-0 pointer-events-none select-none h-0 overflow-hidden"
             : "opacity-100"
@@ -158,14 +158,15 @@ export default function ItemSection() {
               ease: [0.16, 1, 0.3, 1],
             }}
             whileHover={{ y: -6, transition: { duration: 0.2 } }}
-            className="rounded-[32px] p-6 sm:p-8 flex flex-col justify-between backdrop-blur-md w-full shadow-2xl h-full"
+            className="rounded-[28px] sm:rounded-[32px] p-5 sm:p-7 flex flex-col justify-between backdrop-blur-md w-full shadow-2xl h-full"
             style={{
               backgroundColor: "rgba(255, 255, 255, 0.08)",
               border: "1px solid rgba(255, 255, 255, 0.35)",
             }}
           >
-            <div>
-              <div className="w-full h-72 sm:h-80 rounded-2xl overflow-hidden mb-6 bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/15">
+            {/* CONTENEDOR SUPERIOR (IMAGEN Y TEXTO) */}
+            <div className="flex flex-col flex-grow">
+              <div className="w-full h-60 sm:h-72 rounded-2xl overflow-hidden mb-5 bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/15 shrink-0">
                 <img
                   src={producto.imagen}
                   alt={producto.titulo}
@@ -177,13 +178,13 @@ export default function ItemSection() {
                     e.target.src = "/logo-marush.png";
                   }}
                 />
-                <span className="absolute top-4 left-4 bg-black/50 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-white/20 z-10">
+                <span className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-black/50 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-white/20 z-10 max-w-[80%] truncate shadow-md">
                   {producto.categoria}
                 </span>
               </div>
 
-              <div className="text-left flex flex-col gap-3 my-2">
-                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+              <div className="text-left flex flex-col gap-2 my-2 flex-grow">
+                <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">
                   {producto.titulo}
                 </h3>
                 <p className="text-xs sm:text-sm text-black font-semibold leading-relaxed">
@@ -192,10 +193,10 @@ export default function ItemSection() {
               </div>
             </div>
 
-            {/* PIE DE TARJETA CON BOTONES */}
-            <div className="mt-6 pt-4 border-t border-white/20 flex justify-between items-center gap-2">
+            {/* PIE DE TARJETA ORGANIZADO EN 2 PISOS */}
+            <div className="mt-5 pt-4 border-t border-white/20 flex flex-col gap-3 shrink-0">
               <span
-                className="text-[10px] font-extrabold uppercase tracking-widest"
+                className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest block text-left truncate"
                 style={{ color: "#ff1a2e" }}
               >
                 {producto.tipo === "tres-botones"
@@ -224,14 +225,14 @@ export default function ItemSection() {
                       imagen: producto.imagen,
                     })
                   }
-                  className="bg-white/10 hover:bg-white/25 text-black font-extrabold px-5 py-2 rounded-full text-xs uppercase tracking-wider transition-all border border-white/40 cursor-pointer backdrop-blur-md shadow-sm"
+                  className="bg-white/10 hover:bg-white/25 text-black font-extrabold w-full py-2 rounded-full text-xs uppercase tracking-wider transition-all border border-white/40 cursor-pointer backdrop-blur-md shadow-sm text-center"
                 >
                   {producto.textoBoton}
                 </button>
               )}
 
               {producto.tipo === "tres-botones" && (
-                <div className="flex gap-1.5">
+                <div className="grid grid-cols-3 gap-1.5 w-full">
                   {producto.botones.map((rutaNombre, i) => {
                     const datosRuta = recorridosData[rutaNombre];
                     return (
@@ -254,7 +255,7 @@ export default function ItemSection() {
                             imagen: datosRuta.imagen,
                           })
                         }
-                        className="bg-white/10 hover:bg-white/25 text-black font-extrabold px-2.5 py-2 rounded-full text-[10px] uppercase tracking-wider transition-all border border-white/40 cursor-pointer backdrop-blur-md shadow-sm text-center min-w-[50px]"
+                        className="bg-white/10 hover:bg-white/25 text-black font-extrabold py-2 px-1 rounded-full text-[9px] uppercase tracking-wider transition-all border border-white/40 cursor-pointer backdrop-blur-md shadow-sm text-center truncate"
                       >
                         {rutaNombre}
                       </button>
@@ -267,7 +268,7 @@ export default function ItemSection() {
         ))}
       </div>
 
-      {/* VENTANA MODAL FIJA Y CENTRADA CON FONDO COMPLETAMENTE TRANSPARENTE */}
+      {/* VENTANA MODAL RESPONSIVA Y CENTRADA */}
       <AnimatePresence>
         {modalContent && (
           <motion.div
@@ -275,10 +276,10 @@ export default function ItemSection() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed inset-0 z-[99999] bg-transparent flex justify-center items-center p-4 pointer-events-auto"
+            className="fixed inset-0 z-[99999] bg-transparent flex justify-center items-center p-3 sm:p-6 pointer-events-auto overflow-y-auto"
           >
             <div
-              className="border rounded-[36px] w-full max-w-4xl max-h-[85vh] p-6 sm:p-10 text-black shadow-2xl backdrop-blur-2xl relative transform-gpu will-change-transform flex flex-col gap-6 overflow-y-auto"
+              className="border rounded-[28px] sm:rounded-[36px] w-full max-w-3xl max-h-[90vh] p-4 sm:p-8 text-black shadow-2xl backdrop-blur-2xl relative transform-gpu will-change-transform flex flex-col gap-5 overflow-y-auto my-auto"
               style={{
                 backgroundColor: "rgba(255, 255, 255, 0.18)",
                 borderColor: "rgba(255, 255, 255, 0.35)",
@@ -287,72 +288,72 @@ export default function ItemSection() {
               }}
             >
               {/* ENCABEZADO DENTRO DE SU CAJA */}
-              <div className="flex justify-between items-start bg-white/10 p-5 rounded-2xl border border-white/25 relative">
-                <div>
+              <div className="flex justify-between items-start bg-white/10 p-4 sm:p-5 rounded-2xl border border-white/25 relative gap-2">
+                <div className="overflow-hidden">
                   <span
                     style={{ color: "#dc3545" }}
-                    className="text-[11px] uppercase tracking-[0.4em] font-black block mb-1"
+                    className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] font-black block mb-1 truncate"
                   >
                     {modalContent.categoria} — {modalContent.lema}
                   </span>
-                  <h3 className="text-3xl sm:text-4xl font-black tracking-tight text-black drop-shadow-sm font-sans">
+                  <h3 className="text-xl sm:text-3xl font-black tracking-tight text-black drop-shadow-sm font-sans">
                     {modalContent.titulo}
                   </h3>
                 </div>
 
                 <button
                   onClick={handleCloseModal}
-                  className="bg-black/10 hover:bg-black/20 w-11 h-11 rounded-full flex items-center justify-center text-sm font-bold border border-black/20 cursor-pointer transition-all shadow-sm text-black shrink-0"
+                  className="bg-black/10 hover:bg-black/20 w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center text-sm font-bold border border-black/20 cursor-pointer transition-all shadow-sm text-black shrink-0"
                 >
                   ✕
                 </button>
               </div>
 
               {/* ESPACIO MULTIMEDIA PRINCIPAL */}
-              <div className="w-full h-72 sm:h-96 rounded-3xl overflow-hidden shadow-2xl border border-white/30 bg-black/10 relative group">
+              <div className="w-full h-56 sm:h-80 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/30 bg-black/10 relative group">
                 <img
                   src={modalContent.imagen}
                   alt={modalContent.titulo}
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent flex items-end p-5">
-                  <span className="text-[10px] uppercase tracking-widest text-white font-bold bg-black/40 px-4 py-1.5 rounded-full backdrop-blur-md border border-white/20">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent flex items-end p-4">
+                  <span className="text-[10px] uppercase tracking-widest text-white font-bold bg-black/40 px-3 py-1 rounded-full backdrop-blur-md border border-white/20">
                     Multimedia / Vista Previa
                   </span>
                 </div>
               </div>
 
               {/* CAJAS ORIGINALES PARA DATOS TÉCNICOS */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white/10 p-5 rounded-2xl border border-white/25 text-xs font-semibold text-[#1C1917]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 bg-white/10 p-4 sm:p-5 rounded-2xl border border-white/25 text-xs font-semibold text-[#1C1917]">
                 <div>
-                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
+                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-0.5">
                     Locación:
                   </span>
-                  <p className="font-semibold text-sm text-black">
+                  <p className="font-semibold text-xs sm:text-sm text-black">
                     {modalContent.locacion}
                   </p>
                 </div>
                 <div>
-                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
+                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-0.5">
                     Duración Aprox:
                   </span>
-                  <p className="font-semibold text-sm text-black">
+                  <p className="font-semibold text-xs sm:text-sm text-black">
                     {modalContent.duracion}
                   </p>
                 </div>
                 <div>
-                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
+                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-0.5">
                     Participantes:
                   </span>
-                  <p className="font-semibold text-sm text-black">
+                  <p className="font-semibold text-xs sm:text-sm text-black">
                     {modalContent.participantes}
                   </p>
                 </div>
                 <div>
-                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
+                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-0.5">
                     Horario Sugerido:
                   </span>
-                  <p className="font-semibold text-sm text-black">
+                  <p className="font-semibold text-xs sm:text-sm text-black">
                     {modalContent.horario}
                   </p>
                 </div>
@@ -360,16 +361,16 @@ export default function ItemSection() {
 
               {/* DESCRIPCIÓN */}
               <div>
-                <h4 className="font-black text-xs uppercase tracking-wider text-black mb-2">
+                <h4 className="font-black text-xs uppercase tracking-wider text-black mb-1.5">
                   Descripción:
                 </h4>
-                <p className="text-sm sm:text-base leading-relaxed font-semibold text-[#1C1917]">
+                <p className="text-xs sm:text-base leading-relaxed font-semibold text-[#1C1917]">
                   {modalContent.descripcion}
                 </p>
               </div>
 
               {/* CAJAS ORIGINALES PARA REQUISITOS Y ALIMENTOS */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs">
                 <div className="bg-white/10 p-4 rounded-2xl border border-white/25">
                   <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
                     Requisitos:
@@ -402,11 +403,11 @@ export default function ItemSection() {
 
               {/* SECCIÓN DE ILUSTRACIÓN (FOTO) HASTA ABAJO */}
               {modalContent.ilustracionImg && (
-                <div className="bg-white/10 p-5 rounded-2xl border border-white/25 flex flex-col gap-3">
+                <div className="bg-white/10 p-4 sm:p-5 rounded-2xl border border-white/25 flex flex-col gap-3">
                   <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px]">
                     Ilustración del Recorrido:
                   </span>
-                  <div className="w-full h-64 sm:h-80 rounded-2xl overflow-hidden shadow-lg border border-white/20 bg-black/10">
+                  <div className="w-full h-56 sm:h-72 rounded-2xl overflow-hidden shadow-lg border border-white/20 bg-black/10">
                     <img
                       src={modalContent.ilustracionImg}
                       alt="Ilustración del recorrido"
