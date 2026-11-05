@@ -76,13 +76,13 @@ export default function Footer() {
                   href="mailto:contacto@marush.com"
                   className="hover:text-white transition-colors tracking-wide underline underline-offset-4 decoration-white/20 hover:decoration-white/60"
                 >
-                  contacto@marush.com
+                  marush846@gmail.com
                 </a>
                 <a
                   href="tel:+527710000000"
                   className="text-stone-300 hover:text-white transition-colors text-xs tracking-wide"
                 >
-                  +52 (771) 000-0000
+                  +52 771 260 9856
                 </a>
               </div>
             </motion.div>

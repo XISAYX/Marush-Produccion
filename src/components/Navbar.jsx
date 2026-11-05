@@ -64,6 +64,19 @@ export default function Navbar() {
     );
   };
 
+  const handleSmoothScroll = (e, targetId) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+    document.body.style.overflow = "auto";
+    window.dispatchEvent(
+      new CustomEvent("locationModalState", { detail: { isOpen: false } }),
+    );
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   const googleMapsUrl =
     "https://maps.google.com/?q=Barranca+de+Metztitlan+Hidalgo";
 
@@ -124,6 +137,7 @@ export default function Navbar() {
             >
               <a
                 href="#home"
+                onClick={(e) => handleSmoothScroll(e, "home")}
                 className="px-3.5 py-1.5 rounded-full font-bold text-xs transition-all hover:bg-white/5 no-underline"
                 style={{ color: "#000000" }}
               >
@@ -131,6 +145,7 @@ export default function Navbar() {
               </a>
               <a
                 href="#quienes-somos"
+                onClick={(e) => handleSmoothScroll(e, "quienes-somos")}
                 className="px-3.5 py-1.5 rounded-full font-bold text-xs transition-all hover:bg-white/5 no-underline"
                 style={{ color: "#000000" }}
               >
@@ -138,6 +153,7 @@ export default function Navbar() {
               </a>
               <a
                 href="#productos"
+                onClick={(e) => handleSmoothScroll(e, "productos")}
                 className="px-3.5 py-1.5 rounded-full font-bold text-xs transition-all hover:bg-white/5 no-underline"
                 style={{ color: "#000000" }}
               >
@@ -145,6 +161,7 @@ export default function Navbar() {
               </a>
               <a
                 href="#contacto"
+                onClick={(e) => handleSmoothScroll(e, "contacto")}
                 className="px-3.5 py-1.5 rounded-full font-bold text-xs transition-all hover:bg-white/5 no-underline"
                 style={{ color: "#000000" }}
               >
@@ -235,60 +252,28 @@ export default function Navbar() {
               <div className="flex flex-col gap-2.5 text-sm font-bold text-black w-full">
                 <a
                   href="#home"
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    document.body.style.overflow = "auto";
-                    window.dispatchEvent(
-                      new CustomEvent("locationModalState", {
-                        detail: { isOpen: false },
-                      }),
-                    );
-                  }}
+                  onClick={(e) => handleSmoothScroll(e, "home")}
                   className="py-2.5 px-4 rounded-xl bg-white/[0.05] border border-white/25 hover:bg-white/[0.1] transition-colors shadow-sm text-black no-underline"
                 >
                   Inicio
                 </a>
                 <a
                   href="#quienes-somos"
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    document.body.style.overflow = "auto";
-                    window.dispatchEvent(
-                      new CustomEvent("locationModalState", {
-                        detail: { isOpen: false },
-                      }),
-                    );
-                  }}
+                  onClick={(e) => handleSmoothScroll(e, "quienes-somos")}
                   className="py-2.5 px-4 rounded-xl bg-white/[0.05] border border-white/25 hover:bg-white/[0.1] transition-colors shadow-sm text-black no-underline"
                 >
                   ¿Quiénes somos?
                 </a>
                 <a
                   href="#productos"
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    document.body.style.overflow = "auto";
-                    window.dispatchEvent(
-                      new CustomEvent("locationModalState", {
-                        detail: { isOpen: false },
-                      }),
-                    );
-                  }}
+                  onClick={(e) => handleSmoothScroll(e, "productos")}
                   className="py-2.5 px-4 rounded-xl bg-white/[0.05] border border-white/25 hover:bg-white/[0.1] transition-colors shadow-sm text-black no-underline"
                 >
                   Productos
                 </a>
                 <a
                   href="#contacto"
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    document.body.style.overflow = "auto";
-                    window.dispatchEvent(
-                      new CustomEvent("locationModalState", {
-                        detail: { isOpen: false },
-                      }),
-                    );
-                  }}
+                  onClick={(e) => handleSmoothScroll(e, "contacto")}
                   className="py-2.5 px-4 rounded-xl bg-white/[0.05] border border-white/25 hover:bg-white/[0.1] transition-colors shadow-sm text-black no-underline"
                 >
                   Contacto
