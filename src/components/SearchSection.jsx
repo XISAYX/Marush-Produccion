@@ -8,8 +8,8 @@ const paisesIlustraciones = [
     tag: "Paisaje Protegido",
     descripcion:
       "Área natural protegida que destaca por sus profundos cañones, escarpados relieves y una rica biodiversidad adaptada a los microclimas de la sierra hidalguense.",
+    imagenOriginal: "/Marmoles.webp",
     imagenIlustrada: "/parque-marmoles.webp",
-    imagenOriginal: "/original2.webp",
   },
   {
     id: 2,
@@ -17,8 +17,8 @@ const paisesIlustraciones = [
     tag: "Cañón y Ecosistema",
     descripcion:
       "Reserva caracterizada por su impresionante vega, formaciones geológicas únicas y cuerpos de agua que albergan aves migratorias y especies endémicas.",
+    imagenOriginal: "/metztitlan.webp",
     imagenIlustrada: "/metztitlan-landscape.webp",
-    imagenOriginal: "/organos2.webp",
   },
   {
     id: 3,
@@ -26,8 +26,8 @@ const paisesIlustraciones = [
     tag: "Flora Endémica",
     descripcion:
       "Paisaje semidesértico dominado por imponentes cactus candelabro y cactáceas columnares que forman un santuario natural de gran valor ecológico.",
+    imagenOriginal: "/organos2.webp",
     imagenIlustrada: "/metztitlan-organos.webp",
-    imagenOriginal: "/original2.webp",
   },
 ];
 
@@ -59,7 +59,7 @@ export default function SearchSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [textIndex, setTextIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [tipoVista, setTipoVista] = useState("ilustrada");
+  const [tipoVista, setTipoVista] = useState("original");
 
   // Intervalo estable para el carrusel de imágenes
   useEffect(() => {
@@ -153,13 +153,56 @@ export default function SearchSection() {
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={() => setIsPaused(true)}
           onTouchEnd={() => setIsPaused(false)}
-          className="rounded-[28px] p-5 sm:p-8 backdrop-blur-md flex flex-col items-center text-center gap-4 transform-gpu will-change-transform w-full shadow-2xl"
+          className="rounded-[28px] p-4 sm:p-8 backdrop-blur-md flex flex-col items-center text-center gap-3 transform-gpu will-change-transform w-full shadow-2xl"
           style={{
             backgroundColor: "rgba(255, 255, 255, 0.08)",
             border: "1px solid rgba(255, 255, 255, 0.35)",
           }}
         >
-          <div className="w-full h-52 sm:h-72 md:h-80 rounded-2xl overflow-hidden bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/10 group">
+          {/* BARRA SUPERIOR DE CONTROLES (Ordenada y sin desbordarse) */}
+          <div className="w-full flex items-center justify-between gap-2 px-1">
+            <span
+              className={`backdrop-blur-md text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-full border shadow-md transition-all ${
+                isPaused
+                  ? "bg-[#ff1a2e] border-white/40"
+                  : "bg-black/60 border-white/20"
+              }`}
+            >
+              {isPaused ? "Pausado" : itemActual.tag}
+            </span>
+
+            <div className="flex items-center gap-1 bg-black/60 backdrop-blur-md p-1 rounded-full border border-white/25 shadow-lg">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setTipoVista("original");
+                }}
+                className={`px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  tipoVista === "original"
+                    ? "bg-[#ff1a2e] text-white shadow-md"
+                    : "text-white/80 hover:text-white bg-transparent"
+                }`}
+              >
+                Originales
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setTipoVista("ilustrada");
+                }}
+                className={`px-2.5 sm:px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                  tipoVista === "ilustrada"
+                    ? "bg-[#ff1a2e] text-white shadow-md"
+                    : "text-white/80 hover:text-white bg-transparent"
+                }`}
+              >
+                Ilustradas
+              </button>
+            </div>
+          </div>
+
+          {/* CONTENEDOR DE LA IMAGEN */}
+          <div className="w-full h-60 sm:h-72 md:h-80 rounded-2xl overflow-hidden bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/10 group">
             <AnimatePresence mode="wait">
               <motion.img
                 key={`${itemActual.id}-${tipoVista}`}
@@ -173,53 +216,11 @@ export default function SearchSection() {
                 exit={{ opacity: 0, scale: 1.04 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 className="w-full h-full object-cover rounded-xl shadow-md transform-gpu will-change-transform transition-transform duration-500 group-hover:scale-105"
-                onError={(e) => {
-                  e.target.src = "/logo-marush.png";
-                }}
               />
             </AnimatePresence>
 
-            <span
-              className={`absolute top-4 left-4 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full border z-10 transition-all duration-300 ${
-                isPaused
-                  ? "bg-[#ff1a2e]/80 border-white/40 shadow-lg"
-                  : "bg-black/50 border-white/20"
-              }`}
-            >
-              {isPaused ? "Pausado" : itemActual.tag}
-            </span>
-
-            {/* BOTONES ILUSTRADAS / ORIGINALES */}
-            <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/40 backdrop-blur-md p-1 rounded-full border border-white/25 z-20 shadow-lg">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setTipoVista("ilustrada");
-                }}
-                className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                  tipoVista === "ilustrada"
-                    ? "bg-[#ff1a2e] text-white shadow-md"
-                    : "text-white/80 hover:text-white bg-transparent"
-                }`}
-              >
-                Ilustradas
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setTipoVista("original");
-                }}
-                className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                  tipoVista === "original"
-                    ? "bg-[#ff1a2e] text-white shadow-md"
-                    : "text-white/80 hover:text-white bg-transparent"
-                }`}
-              >
-                Originales
-              </button>
-            </div>
-
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-10">
+            {/* INDICADORES DE PAGINACIÓN */}
+            <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 z-10">
               {paisesIlustraciones.map((item, idx) => (
                 <button
                   key={item.id}
