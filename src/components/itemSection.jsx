@@ -5,7 +5,7 @@ const productosList = [
   {
     id: 1,
     titulo: "Nuestros Productos",
-    categoria: "Fotos Souvenirs",
+    categoria: "Mercancia",
     descripcion:
       "Nuestros productos poseen una identidad que nace en nuestras barrancas y representan nuestras mejores experiencias laborales, principalmente el del monitoreo biológico; también cumplen con la funcionalidad experimentada en campo, por lo que siempre los querrás usar y te servirán en tus expediciones de naturaleza.",
     imagen: "/mockup-martin-pescador.webp",
@@ -195,8 +195,7 @@ export default function ItemSection() {
           Nuestros Productos
         </h2>
         <p className="text-xs sm:text-sm text-black font-semibold mt-2 leading-relaxed max-w-xl text-center px-2">
-          Indumentaria textil diseñada para conectar con la naturaleza, honrando
-          la biodiversidad de la Sierra y la Barranca.
+          Honrando la biodiversidad de la Sierra y la Barranca.
         </p>
       </div>
 

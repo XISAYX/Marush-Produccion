@@ -32,9 +32,7 @@ export default function ContactSection() {
         <span
           className="text-[10px] uppercase tracking-[0.4em] font-black block mb-2"
           style={{ color: "#ff1a2e" }}
-        >
-          Canal Directo
-        </span>
+        ></span>
         <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
           Contacto
         </h2>

@@ -63,13 +63,10 @@ export default function Hero() {
           onCanPlay={(e) => {
             e.target.play().catch((err) => console.log("Play error:", err));
           }}
-          className="absolute inset-0 w-full h-full object-cover brightness-[1.15] saturate-[1.8] contrast-[1.2] scale-105"
+          className="absolute inset-0 w-full h-full object-cover scale-105"
           style={{ willChange: "transform", backfaceVisibility: "hidden" }}
         >
-          <source
-            src="https://res.cloudinary.com/s9lrwmoh/video/upload/f_auto,q_auto,vc_auto/v1790807993/fondo-video.mp4"
-            type="video/mp4"
-          />
+          <source src="/fondo-video .webm" type="video/webm" />
           Tu navegador no soporta videos HTML5.
         </video>
 
