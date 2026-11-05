@@ -91,10 +91,70 @@ const recorridosData = {
   },
 };
 
+const catalogoProductos = [
+  {
+    id: 1,
+    nombre: "Playera Conmemorativa 'Martín Pescador Norteño'",
+    categoria: "Indumentaria Textil",
+    descripcion:
+      "Algodón orgánico de alta resistencia, diseño serigrafiado de la biodiversidad de la Barranca de Metztitlán.",
+    colores: [
+      { nombre: "Verde Oliva", imagen: "/mockup-martin-pescador.webp" },
+      { nombre: "Arena / Beige", imagen: "/mockup-pelicano.webp" },
+      { nombre: "Negro Noche", imagen: "/mockup-parque-marmoles.webp" },
+    ],
+  },
+  {
+    id: 2,
+    nombre: "Playera 'Pelícano Canadiense / Reserva'",
+    categoria: "Indumentaria Textil",
+    descripcion:
+      "Corte cómodo y transpirable, ideal para expediciones de campo y observación de aves en la laguna.",
+    colores: [
+      { nombre: "Arena / Beige", imagen: "/mockup-pelicano.webp" },
+      { nombre: "Verde Oliva", imagen: "/mockup-martin-pescador.webp" },
+      { nombre: "Negro Noche", imagen: "/mockup-parque-marmoles.webp" },
+    ],
+  },
+  {
+    id: 3,
+    nombre: "Termo Metálico Aislado 'Marush' (Edición Campo)",
+    categoria: "Accesorios y Termos",
+    descripcion:
+      "Mantiene bebidas frías o calientes durante tus caminatas por los cañones y manantiales.",
+    colores: [
+      { nombre: "Acero Inoxidable", imagen: "/term.jpeg" },
+      { nombre: "Negro Mate", imagen: "/term.jpeg" },
+    ],
+  },
+  {
+    id: 4,
+    nombre: "Playera Edición Especial 'Parque Mármoles'",
+    categoria: "Indumentaria Textil",
+    descripcion:
+      "Inspirada en los paisajes geológicos y formaciones rocosas de la región norte de la reserva.",
+    colores: [
+      { nombre: "Negro Noche", imagen: "/mockup-parque-marmoles.webp" },
+      { nombre: "Verde Oliva", imagen: "/mockup-martin-pescador.webp" },
+      { nombre: "Arena / Beige", imagen: "/mockup-pelicano.webp" },
+    ],
+  },
+];
+
 export default function ItemSection() {
   const [modalContent, setModalContent] = useState(null);
+  const [isProductCatalog, setIsProductCatalog] = useState(false);
+  const [selectedColors, setSelectedColors] = useState({});
 
-  const handleOpenModal = (data) => {
+  const handleColorSelect = (productId, colorIndex) => {
+    setSelectedColors((prev) => ({
+      ...prev,
+      [productId]: colorIndex,
+    }));
+  };
+
+  const handleOpenModal = (data, isCatalog = false) => {
+    setIsProductCatalog(isCatalog);
     setModalContent(data);
     document.body.style.overflow = "hidden";
     window.dispatchEvent(
@@ -104,6 +164,7 @@ export default function ItemSection() {
 
   const handleCloseModal = () => {
     setModalContent(null);
+    setIsProductCatalog(false);
     document.body.style.overflow = "auto";
     window.dispatchEvent(
       new CustomEvent("locationModalState", { detail: { isOpen: false } }),
@@ -113,9 +174,10 @@ export default function ItemSection() {
   return (
     <section
       id="productos"
-      className="relative w-full py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-16 z-10 bg-transparent flex flex-col items-center justify-center min-h-screen"
+      className={`relative w-full py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-16 bg-transparent flex flex-col items-center justify-center min-h-screen transition-all duration-300 ${
+        modalContent ? "z-[99999]" : "z-10"
+      }`}
     >
-      {/* ENCABEZADO CENTRADO */}
       <div
         className={`text-center max-w-2xl mx-auto mb-10 sm:mb-14 flex flex-col items-center transition-all duration-300 ${
           modalContent
@@ -138,7 +200,6 @@ export default function ItemSection() {
         </p>
       </div>
 
-      {/* CUADRÍCULA CON 3 TARJETAS EXACTAMENTE ALINEADAS Y SIMÉTRICAS */}
       <div
         className={`max-w-7xl mx-auto w-full grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8 items-stretch justify-items-center transition-all duration-300 ${
           modalContent
@@ -164,7 +225,6 @@ export default function ItemSection() {
               border: "1px solid rgba(255, 255, 255, 0.35)",
             }}
           >
-            {/* CONTENEDOR SUPERIOR (IMAGEN Y TEXTO) */}
             <div className="flex flex-col flex-grow">
               <div className="w-full h-60 sm:h-72 rounded-2xl overflow-hidden mb-5 bg-gradient-to-b from-black/30 to-black/10 flex items-center justify-center relative shadow-inner p-2 border border-white/15 shrink-0">
                 <img
@@ -182,7 +242,6 @@ export default function ItemSection() {
                   {producto.categoria}
                 </span>
               </div>
-
               <div className="text-left flex flex-col gap-2 my-2 flex-grow">
                 <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">
                   {producto.titulo}
@@ -193,7 +252,6 @@ export default function ItemSection() {
               </div>
             </div>
 
-            {/* PIE DE TARJETA ORGANIZADO EN 2 PISOS */}
             <div className="mt-5 pt-4 border-t border-white/20 flex flex-col gap-3 shrink-0">
               <span
                 className="text-[9px] sm:text-[10px] font-extrabold uppercase tracking-widest block text-left truncate"
@@ -208,23 +266,7 @@ export default function ItemSection() {
 
               {producto.tipo === "boton-simple" && (
                 <button
-                  onClick={() =>
-                    handleOpenModal({
-                      categoria: producto.categoria,
-                      titulo: producto.titulo,
-                      lema: "COLECCIÓN OFICIAL",
-                      locacion: "Reserva de la Biosfera Barranca de Metztitlán",
-                      duracion: "Permanente",
-                      participantes: "Todo público",
-                      descripcion: producto.descripcion,
-                      horario: "Disponible 24/7",
-                      requisitos: "Ninguno",
-                      alimentos: "N/A",
-                      prohibido: "N/A",
-                      ilustracionImg: producto.imagen,
-                      imagen: producto.imagen,
-                    })
-                  }
+                  onClick={() => handleOpenModal(producto, true)}
                   className="bg-white/10 hover:bg-white/25 text-black font-extrabold w-full py-2 rounded-full text-xs uppercase tracking-wider transition-all border border-white/40 cursor-pointer backdrop-blur-md shadow-sm text-center"
                 >
                   {producto.textoBoton}
@@ -238,23 +280,7 @@ export default function ItemSection() {
                     return (
                       <button
                         key={i}
-                        onClick={() =>
-                          handleOpenModal({
-                            categoria: `RECORRIDO ${i + 1}`,
-                            titulo: datosRuta.titulo,
-                            lema: datosRuta.lema,
-                            locacion: datosRuta.locacion,
-                            duracion: datosRuta.duracion,
-                            participantes: datosRuta.participantes,
-                            descripcion: datosRuta.descripcion,
-                            horario: datosRuta.horario,
-                            requisitos: datosRuta.requisitos,
-                            alimentos: datosRuta.alimentos,
-                            prohibido: datosRuta.prohibido,
-                            ilustracionImg: datosRuta.ilustracionImg,
-                            imagen: datosRuta.imagen,
-                          })
-                        }
+                        onClick={() => handleOpenModal(datosRuta, false)}
                         className="bg-white/10 hover:bg-white/25 text-black font-extrabold py-2 px-1 rounded-full text-[9px] uppercase tracking-wider transition-all border border-white/40 cursor-pointer backdrop-blur-md shadow-sm text-center truncate"
                       >
                         {rutaNombre}
@@ -268,18 +294,21 @@ export default function ItemSection() {
         ))}
       </div>
 
-      {/* VENTANA MODAL RESPONSIVA Y CENTRADA */}
       <AnimatePresence>
         {modalContent && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed inset-0 z-[99999] bg-transparent flex justify-center items-center p-3 sm:p-6 pointer-events-auto overflow-y-auto"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-transparent flex justify-center items-center p-3 sm:p-6 pointer-events-auto overflow-y-auto"
           >
-            <div
-              className="border rounded-[28px] sm:rounded-[36px] w-full max-w-3xl max-h-[90vh] p-4 sm:p-8 text-black shadow-2xl backdrop-blur-2xl relative transform-gpu will-change-transform flex flex-col gap-5 overflow-y-auto my-auto"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="border rounded-[28px] sm:rounded-[36px] w-full max-w-4xl max-h-[90vh] p-5 sm:p-8 text-black shadow-2xl backdrop-blur-2xl relative transform-gpu will-change-transform flex flex-col gap-6 overflow-y-auto my-auto"
               style={{
                 backgroundColor: "rgba(255, 255, 255, 0.18)",
                 borderColor: "rgba(255, 255, 255, 0.35)",
@@ -287,136 +316,212 @@ export default function ItemSection() {
                 msOverflowStyle: "none",
               }}
             >
-              {/* ENCABEZADO DENTRO DE SU CAJA */}
-              <div className="flex justify-between items-start bg-white/10 p-4 sm:p-5 rounded-2xl border border-white/25 relative gap-2">
+              {/* ENCABEZADO */}
+              <div className="flex justify-between items-start relative gap-2">
                 <div className="overflow-hidden">
                   <span
                     style={{ color: "#dc3545" }}
-                    className="text-[10px] sm:text-[11px] uppercase tracking-[0.3em] font-black block mb-1 truncate"
+                    className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-black block mb-1 truncate"
                   >
-                    {modalContent.categoria} — {modalContent.lema}
+                    {isProductCatalog
+                      ? "Catálogo Oficial — Marush"
+                      : `${modalContent.categoria} — ${modalContent.lema || "Colección Oficial"}`}
                   </span>
-                  <h3 className="text-xl sm:text-3xl font-black tracking-tight text-black drop-shadow-sm font-sans">
-                    {modalContent.titulo}
+                  <h3 className="text-xl sm:text-2xl font-black tracking-tight text-black drop-shadow-sm font-sans">
+                    {isProductCatalog
+                      ? "Indumentaria y Accesorios de Campo"
+                      : modalContent.titulo}
                   </h3>
                 </div>
-
                 <button
                   onClick={handleCloseModal}
-                  className="bg-black/10 hover:bg-black/20 w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center text-sm font-bold border border-black/20 cursor-pointer transition-all shadow-sm text-black shrink-0"
+                  className="bg-black/10 hover:bg-black/20 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm font-bold border border-black/20 cursor-pointer transition-all shadow-sm text-black shrink-0"
                 >
                   ✕
                 </button>
               </div>
 
-              {/* ESPACIO MULTIMEDIA PRINCIPAL */}
-              <div className="w-full h-56 sm:h-80 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/30 bg-black/10 relative group">
-                <img
-                  src={modalContent.imagen}
-                  alt={modalContent.titulo}
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent flex items-end p-4">
-                  <span className="text-[10px] uppercase tracking-widest text-white font-bold bg-black/40 px-3 py-1 rounded-full backdrop-blur-md border border-white/20">
-                    Multimedia / Vista Previa
-                  </span>
+              {/* CONTENIDO PRODUCTOS */}
+              {isProductCatalog ? (
+                <div className="flex flex-col gap-6">
+                  <p className="text-xs sm:text-sm font-semibold text-black leading-relaxed text-center max-w-2xl mx-auto">
+                    Explora nuestra línea biocultural inspirada en la Reserva de
+                    la Biosfera Barranca de Metztitlán. Selecciona un color para
+                    visualizar el modelo disponible.
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {catalogoProductos.map((prod) => {
+                      const activeColorIndex = selectedColors[prod.id] || 0;
+                      const activeColorObj = prod.colores[activeColorIndex];
+                      return (
+                        <div
+                          key={prod.id}
+                          className="bg-white/10 border border-white/20 rounded-3xl p-5 flex flex-col justify-between shadow-xl backdrop-blur-md"
+                        >
+                          <div className="w-full h-56 rounded-2xl overflow-hidden mb-4 bg-black/10 relative shadow-inner">
+                            <AnimatePresence mode="wait">
+                              <motion.img
+                                key={
+                                  activeColorObj.imagen + activeColorObj.nombre
+                                }
+                                src={activeColorObj.imagen}
+                                alt={prod.nombre}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.95 }}
+                                transition={{ duration: 0.25 }}
+                                className="w-full h-full object-cover"
+                              />
+                            </AnimatePresence>
+                            <span className="absolute top-3 left-3 bg-black/50 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-white/20 shadow-md">
+                              {prod.categoria}
+                            </span>
+                          </div>
+                          <div className="flex flex-col gap-3">
+                            <div className="flex flex-col gap-1">
+                              <span className="text-[10px] uppercase tracking-wider font-extrabold text-[#dc3545]">
+                                Color seleccionado: {activeColorObj.nombre}
+                              </span>
+                              <h4 className="text-base sm:text-lg font-black text-black tracking-tight">
+                                {prod.nombre}
+                              </h4>
+                              <p className="text-xs font-semibold text-[#1C1917] leading-relaxed">
+                                {prod.descripcion}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-2 pt-2 border-t border-black/10">
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-black">
+                                Colores:
+                              </span>
+                              <div className="flex items-center gap-2">
+                                {prod.colores.map((col, cIdx) => {
+                                  const isSelected = activeColorIndex === cIdx;
+                                  return (
+                                    <button
+                                      key={cIdx}
+                                      onClick={() =>
+                                        handleColorSelect(prod.id, cIdx)
+                                      }
+                                      className={`w-9 h-9 rounded-xl overflow-hidden border-2 transition-all cursor-pointer shadow-sm ${
+                                        isSelected
+                                          ? "border-[#dc3545] scale-110 shadow-md ring-2 ring-[#dc3545]/50"
+                                          : "border-white/30 opacity-70 hover:opacity-100"
+                                      }`}
+                                      title={col.nombre}
+                                    >
+                                      <img
+                                        src={col.imagen}
+                                        alt={col.nombre}
+                                        className="w-full h-full object-cover"
+                                      />
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              ) : (
+                /* CONTENIDO ORIGINAL EXACTO DE RUTAS CON TAMAÑOS CORRECTOS */
+                <div className="flex flex-col gap-4">
+                  {/* CAJA SUPERIOR CON DATOS */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-white/10 p-4 rounded-2xl border border-white/25 shadow-sm">
+                    <div className="flex flex-col">
+                      <span className="text-[9px] font-bold text-[#dc3545] uppercase tracking-wider">
+                        Locación:
+                      </span>
+                      <span className="text-xs font-semibold text-black">
+                        {modalContent.locacion}
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[9px] font-bold text-[#dc3545] uppercase tracking-wider">
+                        Duración Aprox:
+                      </span>
+                      <span className="text-xs font-semibold text-black">
+                        {modalContent.duracion}
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[9px] font-bold text-[#dc3545] uppercase tracking-wider">
+                        Participantes:
+                      </span>
+                      <span className="text-xs font-semibold text-black">
+                        {modalContent.participantes}
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[9px] font-bold text-[#dc3545] uppercase tracking-wider">
+                        Horario Sugerido:
+                      </span>
+                      <span className="text-xs font-semibold text-black">
+                        {modalContent.horario}
+                      </span>
+                    </div>
+                  </div>
 
-              {/* CAJAS ORIGINALES PARA DATOS TÉCNICOS */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 bg-white/10 p-4 sm:p-5 rounded-2xl border border-white/25 text-xs font-semibold text-[#1C1917]">
-                <div>
-                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-0.5">
-                    Locación:
-                  </span>
-                  <p className="font-semibold text-xs sm:text-sm text-black">
-                    {modalContent.locacion}
-                  </p>
-                </div>
-                <div>
-                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-0.5">
-                    Duración Aprox:
-                  </span>
-                  <p className="font-semibold text-xs sm:text-sm text-black">
-                    {modalContent.duracion}
-                  </p>
-                </div>
-                <div>
-                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-0.5">
-                    Participantes:
-                  </span>
-                  <p className="font-semibold text-xs sm:text-sm text-black">
-                    {modalContent.participantes}
-                  </p>
-                </div>
-                <div>
-                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-0.5">
-                    Horario Sugerido:
-                  </span>
-                  <p className="font-semibold text-xs sm:text-sm text-black">
-                    {modalContent.horario}
-                  </p>
-                </div>
-              </div>
+                  {/* DESCRIPCIÓN */}
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-black text-[#dc3545] uppercase tracking-wider mb-1 block">
+                      Descripción:
+                    </span>
+                    <p className="text-xs sm:text-sm font-semibold text-[#1C1917] leading-relaxed">
+                      {modalContent.descripcion}
+                    </p>
+                  </div>
 
-              {/* DESCRIPCIÓN */}
-              <div>
-                <h4 className="font-black text-xs uppercase tracking-wider text-black mb-1.5">
-                  Descripción:
-                </h4>
-                <p className="text-xs sm:text-base leading-relaxed font-semibold text-[#1C1917]">
-                  {modalContent.descripcion}
-                </p>
-              </div>
+                  {/* REQUISITOS Y ALIMENTOS */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="bg-white/10 p-3.5 rounded-2xl border border-white/25 flex flex-col shadow-sm">
+                      <span className="text-[9px] font-bold text-[#dc3545] uppercase tracking-wider mb-0.5">
+                        Requisitos:
+                      </span>
+                      <span className="text-xs font-semibold text-black">
+                        {modalContent.requisitos || "Ninguno"}
+                      </span>
+                    </div>
+                    <div className="bg-white/10 p-3.5 rounded-2xl border border-white/25 flex flex-col shadow-sm">
+                      <span className="text-[9px] font-bold text-[#dc3545] uppercase tracking-wider mb-0.5">
+                        Alimentos:
+                      </span>
+                      <span className="text-xs font-semibold text-black">
+                        {modalContent.alimentos || "N/A"}
+                      </span>
+                    </div>
+                  </div>
 
-              {/* CAJAS ORIGINALES PARA REQUISITOS Y ALIMENTOS */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs">
-                <div className="bg-white/10 p-4 rounded-2xl border border-white/25">
-                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
-                    Requisitos:
-                  </span>
-                  <p className="font-semibold text-black text-xs sm:text-sm">
-                    {modalContent.requisitos}
-                  </p>
-                </div>
-                <div className="bg-white/10 p-4 rounded-2xl border border-white/25">
-                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
-                    Alimentos:
-                  </span>
-                  <p className="font-semibold text-black text-xs sm:text-sm">
-                    {modalContent.alimentos}
-                  </p>
-                </div>
-              </div>
+                  {/* PROHIBICIONES */}
+                  {modalContent.prohibido && (
+                    <div className="bg-[#dc3545]/5 p-3.5 rounded-2xl border border-[#dc3545]/30 flex flex-col shadow-sm">
+                      <span className="text-[9px] font-bold text-[#dc3545] uppercase tracking-wider mb-0.5">
+                        Prohibido / Reglas:
+                      </span>
+                      <span className="text-xs font-semibold text-black">
+                        {modalContent.prohibido}
+                      </span>
+                    </div>
+                  )}
 
-              {/* CAJA ROJA EXCLUSIVA PARA PROHIBIDO */}
-              {modalContent.prohibido !== "N/A" && (
-                <div className="bg-red-500/15 p-4 rounded-2xl border border-red-500/30 text-xs">
-                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px] mb-1">
-                    Prohibido:
-                  </span>
-                  <p className="font-semibold text-black text-xs sm:text-sm leading-relaxed">
-                    {modalContent.prohibido}
-                  </p>
-                </div>
-              )}
-
-              {/* SECCIÓN DE ILUSTRACIÓN (FOTO) HASTA ABAJO */}
-              {modalContent.ilustracionImg && (
-                <div className="bg-white/10 p-4 sm:p-5 rounded-2xl border border-white/25 flex flex-col gap-3">
-                  <span className="font-bold text-[#dc3545] uppercase tracking-wider block text-[10px]">
-                    Ilustración del Recorrido:
-                  </span>
-                  <div className="w-full h-56 sm:h-72 rounded-2xl overflow-hidden shadow-lg border border-white/20 bg-black/10">
-                    <img
-                      src={modalContent.ilustracionImg}
-                      alt="Ilustración del recorrido"
-                      className="w-full h-full object-cover"
-                    />
+                  {/* ILUSTRACIÓN CON TAMAÑO CONTROLADO */}
+                  <div className="flex flex-col mt-1">
+                    <span className="text-[10px] font-black text-[#dc3545] uppercase tracking-wider mb-1.5 block">
+                      Ilustración del recorrido:
+                    </span>
+                    <div className="w-full h-52 sm:h-64 rounded-2xl overflow-hidden shadow-lg border border-white/30 bg-black/5">
+                      <img
+                        src={modalContent.ilustracionImg || modalContent.imagen}
+                        alt={modalContent.titulo}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   </div>
                 </div>
               )}
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
