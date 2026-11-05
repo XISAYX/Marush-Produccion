@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const productosList = [
@@ -8,7 +8,7 @@ const productosList = [
     categoria: "Mercancia",
     descripcion:
       "Nuestros productos poseen una identidad que nace en nuestras barrancas y representan nuestras mejores experiencias laborales, principalmente el del monitoreo biológico; también cumplen con la funcionalidad experimentada en campo, por lo que siempre los querrás usar y te servirán en tus expediciones de naturaleza.",
-    imagen: "/mockup-martin-pescador.webp",
+    imagen: "/merch.webp",
     tipo: "boton-simple",
     textoBoton: "Ver Productos",
   },
@@ -18,7 +18,7 @@ const productosList = [
     categoria: "Gestión de Brigada",
     descripcion:
       "El turismo de observación incluye actividades científicas y trámites gubernamentales ante la CONANP. Orientamos tu trámite para cumplir con la normatividad y buenas prácticas de investigación.",
-    imagen: "/twoi.png",
+    imagen: "/twoi.webp",
     tipo: "sin-boton",
   },
   {
@@ -27,7 +27,7 @@ const productosList = [
     categoria: "Senderos y Expediciones",
     descripcion:
       "Explora los caminos y senderos interpretativos diseñados para conectar profundamente con los paisajes y la historia geológica de la reserva.",
-    imagen: "/mockup-pelicano.webp",
+    imagen: "/senderos-y-expediciones.webp",
     tipo: "tres-botones",
     botones: ["Ruta 1", "Ruta 2", "Ruta 3"],
   },
@@ -49,8 +49,9 @@ const recorridosData = {
       "A contratar el servicio de preparación de pescado frito al fin del recorrido (costo extra) (sujeto a disponibilidad)",
     prohibido:
       "Capturar, cazar, alimentar, retener o apropiarse de especies y derivados, así como flora y fauna silvestre y cualquier actividad que arriesgue o altere la integridad de los usuarios, la barranca y sus elementos. Prohibido portar y consumir alcohol y enervantes durante el recorrido.",
-    ilustracionImg: "/mockup-martin-pescador.webp",
-    imagen: "/mockup-pelicano.webp",
+    tipoMedia: "video",
+    mediaSrc: "/Laguna_.webm",
+    ilustracionImg: "/pv.webp",
   },
   "Ruta 2": {
     titulo: "Entre Cañones y Manantiales",
@@ -68,8 +69,9 @@ const recorridosData = {
       "A contratar previamente según las actividades a elegir con el guía acreditado",
     prohibido:
       "Capturar, cazar, alimentar, retener o apropiarse de especies silvestres, derivados, elementos naturales y cualquier actividad que arriesgue o altere la integridad de los usuarios, los ecosistemas y sus flujos dendroenergéticos.",
-    ilustracionImg: "/twoi.png",
-    imagen: "/mockup-pelicano.webp",
+    tipoMedia: "video",
+    mediaSrc: "/manantiales.webm",
+    ilustracionImg: "/twoi.webp",
   },
   "Ruta 3": {
     titulo: "Museo Vivo de Cactáceas",
@@ -86,7 +88,8 @@ const recorridosData = {
       "Te encuentras en la cabecera del municipio de Metztitlán, recuerda traer hidratación si eliges un recorrido.",
     prohibido:
       "Manipular, alimentar, retener o apropiarse de especies silvestres, derivados, elementos naturales y cualquier actividad que arriesgue o altere la integridad de los usuarios.",
-    ilustracionImg: "/logo-marush.png",
+    tipoMedia: "imagen",
+    ilustracionImg: "/logo-marush.webp",
     imagen: "/mockup-pelicano.webp",
   },
 };
@@ -94,50 +97,33 @@ const recorridosData = {
 const catalogoProductos = [
   {
     id: 1,
-    nombre: "Playera Conmemorativa 'Martín Pescador Norteño'",
+    nombre: "Playera Conmemorativa 'Línea Biocultural'",
     categoria: "Indumentaria Textil",
     descripcion:
-      "Algodón orgánico de alta resistencia, diseño serigrafiado de la biodiversidad de la Barranca de Metztitlán.",
+      "Algodón orgánico de alta resistencia con diseños representativos de la biodiversidad y paisajes de la Reserva de la Biosfera Barranca de Metztitlán.",
     colores: [
-      { nombre: "Verde Oliva", imagen: "/mockup-martin-pescador.webp" },
-      { nombre: "Arena / Beige", imagen: "/mockup-pelicano.webp" },
-      { nombre: "Negro Noche", imagen: "/mockup-parque-marmoles.webp" },
+      { nombre: "Verde Oliva (Martín Pescador)", imagen: "/pv.webp" },
+      {
+        nombre: "Arena (Pelícano Canadiense)",
+        imagen: "/mockup-pelicano.webp",
+      },
+      {
+        nombre: "Arena (Parque Los Mármoles)",
+        imagen: "/mockup-parque-marmoles.webp",
+      },
+      {
+        nombre: "Café (Reserva de la Biosfera)",
+        imagen: "/mockup-reserva-metztitlan.webp",
+      },
     ],
   },
   {
     id: 2,
-    nombre: "Playera 'Pelícano Canadiense / Reserva'",
-    categoria: "Indumentaria Textil",
-    descripcion:
-      "Corte cómodo y transpirable, ideal para expediciones de campo y observación de aves en la laguna.",
-    colores: [
-      { nombre: "Arena / Beige", imagen: "/mockup-pelicano.webp" },
-      { nombre: "Verde Oliva", imagen: "/mockup-martin-pescador.webp" },
-      { nombre: "Negro Noche", imagen: "/mockup-parque-marmoles.webp" },
-    ],
-  },
-  {
-    id: 3,
-    nombre: "Termo Metálico Aislado 'Marush' (Edición Campo)",
+    nombre: "Termo Metálico Aislado 'Marush'",
     categoria: "Accesorios y Termos",
     descripcion:
-      "Mantiene bebidas frías o calientes durante tus caminatas por los cañones y manantiales.",
-    colores: [
-      { nombre: "Acero Inoxidable", imagen: "/term.jpeg" },
-      { nombre: "Negro Mate", imagen: "/term.jpeg" },
-    ],
-  },
-  {
-    id: 4,
-    nombre: "Playera Edición Especial 'Parque Mármoles'",
-    categoria: "Indumentaria Textil",
-    descripcion:
-      "Inspirada en los paisajes geológicos y formaciones rocosas de la región norte de la reserva.",
-    colores: [
-      { nombre: "Negro Noche", imagen: "/mockup-parque-marmoles.webp" },
-      { nombre: "Verde Oliva", imagen: "/mockup-martin-pescador.webp" },
-      { nombre: "Arena / Beige", imagen: "/mockup-pelicano.webp" },
-    ],
+      "Termo de alta calidad con aislamiento térmico, ideal para mantener tus bebidas a la temperatura perfecta durante tus expediciones de campo.",
+    colores: [{ nombre: "Negro Mate / Acero", imagen: "/term.jpeg" }],
   },
 ];
 
@@ -145,6 +131,8 @@ export default function ItemSection() {
   const [modalContent, setModalContent] = useState(null);
   const [isProductCatalog, setIsProductCatalog] = useState(false);
   const [selectedColors, setSelectedColors] = useState({});
+  const [isMuted, setIsMuted] = useState(true);
+  const modalVideoRef = useRef(null);
 
   const handleColorSelect = (productId, colorIndex) => {
     setSelectedColors((prev) => ({
@@ -156,6 +144,7 @@ export default function ItemSection() {
   const handleOpenModal = (data, isCatalog = false) => {
     setIsProductCatalog(isCatalog);
     setModalContent(data);
+    setIsMuted(true);
     document.body.style.overflow = "hidden";
     window.dispatchEvent(
       new CustomEvent("locationModalState", { detail: { isOpen: true } }),
@@ -169,6 +158,13 @@ export default function ItemSection() {
     window.dispatchEvent(
       new CustomEvent("locationModalState", { detail: { isOpen: false } }),
     );
+  };
+
+  const toggleAudio = () => {
+    if (modalVideoRef.current) {
+      modalVideoRef.current.muted = !modalVideoRef.current.muted;
+      setIsMuted(modalVideoRef.current.muted);
+    }
   };
 
   return (
@@ -233,9 +229,6 @@ export default function ItemSection() {
                   height="600"
                   loading="lazy"
                   className="w-full h-full object-cover rounded-xl shadow-md transition-transform duration-700 hover:scale-105"
-                  onError={(e) => {
-                    e.target.src = "/logo-marush.png";
-                  }}
                 />
                 <span className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-black/50 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-white/20 z-10 max-w-[80%] truncate shadow-md">
                   {producto.categoria}
@@ -307,7 +300,7 @@ export default function ItemSection() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
-              className="border rounded-[28px] sm:rounded-[36px] w-full max-w-4xl max-h-[90vh] p-5 sm:p-8 text-black shadow-2xl backdrop-blur-2xl relative transform-gpu will-change-transform flex flex-col gap-6 overflow-y-auto my-auto"
+              className="border rounded-[28px] sm:rounded-[36px] w-full max-w-3xl max-h-[85vh] p-4 sm:p-6 text-black shadow-2xl backdrop-blur-2xl relative transform-gpu will-change-transform flex flex-col gap-4 overflow-y-auto my-auto"
               style={{
                 backgroundColor: "rgba(255, 255, 255, 0.18)",
                 borderColor: "rgba(255, 255, 255, 0.35)",
@@ -326,7 +319,7 @@ export default function ItemSection() {
                       ? "Catálogo Oficial — Marush"
                       : `${modalContent.categoria} — ${modalContent.lema || "Colección Oficial"}`}
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-black tracking-tight text-black drop-shadow-sm font-sans">
+                  <h3 className="text-lg sm:text-xl font-black tracking-tight text-black drop-shadow-sm font-sans">
                     {isProductCatalog
                       ? "Indumentaria y Accesorios de Campo"
                       : modalContent.titulo}
@@ -334,7 +327,7 @@ export default function ItemSection() {
                 </div>
                 <button
                   onClick={handleCloseModal}
-                  className="bg-black/10 hover:bg-black/20 w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm font-bold border border-black/20 cursor-pointer transition-all shadow-sm text-black shrink-0"
+                  className="bg-black/10 hover:bg-black/20 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border border-black/25 cursor-pointer transition-all shadow-sm text-black shrink-0"
                 >
                   ✕
                 </button>
@@ -342,57 +335,69 @@ export default function ItemSection() {
 
               {/* CONTENIDO PRODUCTOS */}
               {isProductCatalog ? (
-                <div className="flex flex-col gap-6">
-                  <p className="text-xs sm:text-sm font-semibold text-black leading-relaxed text-center max-w-2xl mx-auto">
+                <div className="flex flex-col gap-5">
+                  <p className="text-xs sm:text-sm font-semibold text-black leading-relaxed text-center max-w-xl mx-auto">
                     Explora nuestra línea biocultural inspirada en la Reserva de
-                    la Biosfera Barranca de Metztitlán. Selecciona un color para
-                    visualizar el modelo disponible.
+                    la Biosfera Barranca de Metztitlán. Selecciona una opción
+                    para visualizar el modelo disponible.
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {catalogoProductos.map((prod) => {
                       const activeColorIndex = selectedColors[prod.id] || 0;
                       const activeColorObj = prod.colores[activeColorIndex];
+                      const isTermo = prod.id === 2;
+
                       return (
                         <div
                           key={prod.id}
-                          className="bg-white/10 border border-white/20 rounded-3xl p-5 flex flex-col justify-between shadow-xl backdrop-blur-md"
+                          className="bg-white/10 border border-white/20 rounded-3xl p-4 flex flex-col justify-between shadow-xl backdrop-blur-md"
                         >
-                          <div className="w-full h-56 rounded-2xl overflow-hidden mb-4 bg-black/10 relative shadow-inner">
+                          <div
+                            className={`w-full h-56 sm:h-60 rounded-2xl overflow-hidden mb-3 relative shadow-inner flex items-center justify-center ${
+                              isTermo
+                                ? "bg-white border border-black/10"
+                                : "bg-black/10"
+                            }`}
+                          >
                             <AnimatePresence mode="wait">
                               <motion.img
-                                key={
-                                  activeColorObj.imagen + activeColorObj.nombre
-                                }
+                                key={activeColorObj.imagen}
                                 src={activeColorObj.imagen}
                                 alt={prod.nombre}
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
                                 transition={{ duration: 0.25 }}
-                                className="w-full h-full object-cover"
+                                className={`w-full h-full ${
+                                  isTermo
+                                    ? "object-contain p-2"
+                                    : "object-cover"
+                                }`}
                               />
                             </AnimatePresence>
-                            <span className="absolute top-3 left-3 bg-black/50 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-white/20 shadow-md">
+                            <span className="absolute top-2 left-2 bg-black/50 backdrop-blur-md text-white text-[9px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-white/20 shadow-md z-10">
                               {prod.categoria}
                             </span>
                           </div>
-                          <div className="flex flex-col gap-3">
-                            <div className="flex flex-col gap-1">
-                              <span className="text-[10px] uppercase tracking-wider font-extrabold text-[#dc3545]">
-                                Color seleccionado: {activeColorObj.nombre}
+                          <div className="flex flex-col gap-2">
+                            <div className="flex flex-col gap-0.5">
+                              <span className="text-[9px] uppercase tracking-wider font-extrabold text-[#dc3545]">
+                                Opción seleccionada: {activeColorObj.nombre}
                               </span>
-                              <h4 className="text-base sm:text-lg font-black text-black tracking-tight">
+                              <h4 className="text-sm sm:text-base font-black text-black tracking-tight">
                                 {prod.nombre}
                               </h4>
-                              <p className="text-xs font-semibold text-[#1C1917] leading-relaxed">
+                              <p className="text-[11px] font-semibold text-[#1C1917] leading-relaxed">
                                 {prod.descripcion}
                               </p>
                             </div>
                             <div className="flex items-center gap-2 pt-2 border-t border-black/10">
-                              <span className="text-[10px] font-bold uppercase tracking-wider text-black">
-                                Colores:
+                              <span className="text-[9px] font-bold uppercase tracking-wider text-black">
+                                {prod.colores.length > 1
+                                  ? "Modelos:"
+                                  : "Color:"}
                               </span>
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-1.5">
                                 {prod.colores.map((col, cIdx) => {
                                   const isSelected = activeColorIndex === cIdx;
                                   return (
@@ -401,7 +406,7 @@ export default function ItemSection() {
                                       onClick={() =>
                                         handleColorSelect(prod.id, cIdx)
                                       }
-                                      className={`w-9 h-9 rounded-xl overflow-hidden border-2 transition-all cursor-pointer shadow-sm ${
+                                      className={`w-7 h-7 rounded-lg overflow-hidden border-2 transition-all cursor-pointer shadow-sm ${
                                         isSelected
                                           ? "border-[#dc3545] scale-110 shadow-md ring-2 ring-[#dc3545]/50"
                                           : "border-white/30 opacity-70 hover:opacity-100"
@@ -425,10 +430,9 @@ export default function ItemSection() {
                   </div>
                 </div>
               ) : (
-                /* CONTENIDO ORIGINAL EXACTO DE RUTAS CON TAMAÑOS CORRECTOS */
-                <div className="flex flex-col gap-4">
-                  {/* CAJA SUPERIOR CON DATOS */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-white/10 p-4 rounded-2xl border border-white/25 shadow-sm">
+                /* CONTENIDO ORIGINAL DE RUTAS */
+                <div className="flex flex-col gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 bg-white/10 p-3 rounded-2xl border border-white/25 shadow-sm">
                     <div className="flex flex-col">
                       <span className="text-[9px] font-bold text-[#dc3545] uppercase tracking-wider">
                         Locación:
@@ -463,7 +467,6 @@ export default function ItemSection() {
                     </div>
                   </div>
 
-                  {/* DESCRIPCIÓN */}
                   <div className="flex flex-col">
                     <span className="text-[10px] font-black text-[#dc3545] uppercase tracking-wider mb-1 block">
                       Descripción:
@@ -473,9 +476,8 @@ export default function ItemSection() {
                     </p>
                   </div>
 
-                  {/* REQUISITOS Y ALIMENTOS */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="bg-white/10 p-3.5 rounded-2xl border border-white/25 flex flex-col shadow-sm">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <div className="bg-white/10 p-3 rounded-2xl border border-white/25 flex flex-col shadow-sm">
                       <span className="text-[9px] font-bold text-[#dc3545] uppercase tracking-wider mb-0.5">
                         Requisitos:
                       </span>
@@ -483,7 +485,7 @@ export default function ItemSection() {
                         {modalContent.requisitos || "Ninguno"}
                       </span>
                     </div>
-                    <div className="bg-white/10 p-3.5 rounded-2xl border border-white/25 flex flex-col shadow-sm">
+                    <div className="bg-white/10 p-3 rounded-2xl border border-white/25 flex flex-col shadow-sm">
                       <span className="text-[9px] font-bold text-[#dc3545] uppercase tracking-wider mb-0.5">
                         Alimentos:
                       </span>
@@ -493,9 +495,8 @@ export default function ItemSection() {
                     </div>
                   </div>
 
-                  {/* PROHIBICIONES */}
                   {modalContent.prohibido && (
-                    <div className="bg-[#dc3545]/5 p-3.5 rounded-2xl border border-[#dc3545]/30 flex flex-col shadow-sm">
+                    <div className="bg-[#dc3545]/5 p-3 rounded-2xl border border-[#dc3545]/30 flex flex-col shadow-sm">
                       <span className="text-[9px] font-bold text-[#dc3545] uppercase tracking-wider mb-0.5">
                         Prohibido / Reglas:
                       </span>
@@ -505,17 +506,43 @@ export default function ItemSection() {
                     </div>
                   )}
 
-                  {/* ILUSTRACIÓN CON TAMAÑO CONTROLADO */}
+                  {/* APARTADO DE ILUSTRACIÓN */}
                   <div className="flex flex-col mt-1">
                     <span className="text-[10px] font-black text-[#dc3545] uppercase tracking-wider mb-1.5 block">
                       Ilustración del recorrido:
                     </span>
-                    <div className="w-full h-52 sm:h-64 rounded-2xl overflow-hidden shadow-lg border border-white/30 bg-black/5">
-                      <img
-                        src={modalContent.ilustracionImg || modalContent.imagen}
-                        alt={modalContent.titulo}
-                        className="w-full h-full object-cover"
-                      />
+                    <div className="w-full rounded-2xl overflow-hidden shadow-lg border border-white/30 relative flex items-center justify-center bg-transparent">
+                      {modalContent.tipoMedia === "video" ? (
+                        <>
+                          <video
+                            ref={modalVideoRef}
+                            src={modalContent.mediaSrc}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-auto max-h-[350px] object-cover rounded-2xl"
+                          />
+                          <button
+                            onClick={toggleAudio}
+                            className="absolute bottom-3 right-3 bg-black/70 hover:bg-black/90 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-3.5 py-2 rounded-full border border-white/30 shadow-lg flex items-center gap-1.5 transition-all cursor-pointer z-20"
+                          >
+                            {isMuted ? (
+                              <span> Activar Sonido</span>
+                            ) : (
+                              <span> Silenciar</span>
+                            )}
+                          </button>
+                        </>
+                      ) : (
+                        <img
+                          src={
+                            modalContent.ilustracionImg || modalContent.imagen
+                          }
+                          alt={modalContent.titulo}
+                          className="w-full h-auto max-h-[350px] object-cover rounded-2xl"
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
