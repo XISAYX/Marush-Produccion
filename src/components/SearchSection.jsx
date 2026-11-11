@@ -66,7 +66,7 @@ export default function SearchSection() {
     if (isPaused) return;
     const landscapeInterval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % paisesIlustraciones.length);
-    }, 3000);
+    }, 10000);
     return () => clearInterval(landscapeInterval);
   }, [isPaused]);
 
@@ -75,7 +75,7 @@ export default function SearchSection() {
     if (isPaused) return;
     const textInterval = setInterval(() => {
       setTextIndex((prev) => (prev + 1) % textosInformativos.length);
-    }, 6000);
+    }, 10000);
     return () => clearInterval(textInterval);
   }, [isPaused]);
 
