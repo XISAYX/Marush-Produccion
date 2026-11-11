@@ -160,8 +160,7 @@ export default function Navbar() {
                 Productos
               </a>
               <a
-                href="#contacto"
-                onClick={(e) => handleSmoothScroll(e, "contacto")}
+                href="/contact"
                 className="px-3.5 py-1.5 rounded-full font-bold text-xs transition-all hover:bg-white/5 no-underline"
                 style={{ color: "#000000" }}
               >
@@ -272,8 +271,7 @@ export default function Navbar() {
                   Productos
                 </a>
                 <a
-                  href="#contacto"
-                  onClick={(e) => handleSmoothScroll(e, "contacto")}
+                  href="/contact"
                   className="py-2.5 px-4 rounded-xl bg-white/[0.05] border border-white/25 hover:bg-white/[0.1] transition-colors shadow-sm text-black no-underline"
                 >
                   Contacto

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-export default function ContactSection() {
+export default function ContactSection({ onVolverInicio }) {
   const [formData, setFormData] = useState({
     nombre: "",
     email: "",
@@ -17,6 +17,19 @@ export default function ContactSection() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const numeroWhatsApp = "527712609856";
+
+    const textoMensaje =
+      `*¡Nuevo mensaje desde el sitio web!*%0A%0A` +
+      `*Nombre:* ${formData.nombre}%0A` +
+      `*Correo:* ${formData.email}%0A` +
+      `*Asunto / Motivo:* ${formData.asunto}%0A` +
+      `*Mensaje:* ${formData.mensaje}`;
+
+    const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${textoMensaje}`;
+    window.open(urlWhatsApp, "_blank");
+
     setEnviado(true);
     setTimeout(() => setEnviado(false), 5000);
     setFormData({ nombre: "", email: "", asunto: "", mensaje: "" });
@@ -24,15 +37,21 @@ export default function ContactSection() {
 
   return (
     <section
-      id="contacto"
-      className="relative w-full py-24 px-4 sm:px-6 md:px-10 lg:px-16 z-10 bg-transparent flex flex-col items-center justify-center min-h-screen scroll-mt-28"
+      id="contacto-vista"
+      className="relative w-full py-24 px-4 sm:px-6 md:px-10 lg:px-16 z-10 bg-transparent flex flex-col items-center justify-center min-h-screen"
     >
+      {/* BOTÓN DE REGRESO AL INICIO */}
+      <div className="max-w-7xl mx-auto w-full flex justify-start mb-6">
+        <button
+          onClick={onVolverInicio || (() => (window.location.href = "/"))}
+          className="bg-white/10 hover:bg-white/25 text-white font-extrabold px-6 py-2.5 rounded-full text-xs uppercase tracking-wider transition-all border border-white/30 backdrop-blur-md shadow-lg cursor-pointer flex items-center gap-2"
+        >
+          <span>← Regresar al Inicio</span>
+        </button>
+      </div>
+
       {/* ENCABEZADO DE LA SECCIÓN */}
       <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16 flex flex-col items-center">
-        <span
-          className="text-[10px] uppercase tracking-[0.4em] font-black block mb-2"
-          style={{ color: "#ff1a2e" }}
-        ></span>
         <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
           Contacto
         </h2>
@@ -45,11 +64,10 @@ export default function ContactSection() {
 
       {/* CONTENEDOR PRINCIPAL DE DOS COLUMNAS */}
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* COLUMNA IZQUIERDA: INFORMACIÓN Y DATOS INSTITUCIONALES */}
+        {/* COLUMNA IZQUIERDA: INFORMACIÓN */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="lg:col-span-5 rounded-[32px] p-6 sm:p-8 backdrop-blur-md flex flex-col gap-6 shadow-2xl h-full justify-between"
           style={{
@@ -84,7 +102,6 @@ export default function ContactSection() {
             </p>
           </div>
 
-          {/* BLOQUE DE DATOS DE CONTACTO */}
           <div className="mt-6 pt-6 border-t border-white/25 flex flex-col gap-4 text-xs">
             <div className="flex flex-col gap-1">
               <span className="font-extrabold text-[#ff1a2e] uppercase tracking-wider text-[10px]">
@@ -106,11 +123,10 @@ export default function ContactSection() {
           </div>
         </motion.div>
 
-        {/* COLUMNA DERECHA: FORMULARIO DE MENSAJE */}
+        {/* COLUMNA DERECHA: FORMULARIO */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="lg:col-span-7 rounded-[32px] p-6 sm:p-8 backdrop-blur-md shadow-2xl flex flex-col gap-6"
           style={{
@@ -131,68 +147,57 @@ export default function ContactSection() {
 
           {enviado && (
             <div className="bg-green-500/20 border border-green-500/40 p-4 rounded-2xl text-white text-xs sm:text-sm font-bold text-center">
-              ¡Mensaje enviado con éxito! Nos pondremos en contacto contigo
-              pronto.
+              ¡Mensaje enviado con éxito! Abriendo WhatsApp con tus datos...
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <div className="relative">
-              <input
-                type="text"
-                name="nombre"
-                required
-                placeholder="Nombre completo"
-                value={formData.nombre}
-                onChange={handleChange}
-                className="w-full bg-white/10 border border-white/30 rounded-2xl px-4 py-3.5 text-xs sm:text-sm text-black placeholder-black/60 font-semibold focus:outline-none focus:border-[#ff1a2e] backdrop-blur-md shadow-inner transition-all"
-              />
-            </div>
+            <input
+              type="text"
+              name="nombre"
+              required
+              placeholder="Nombre completo"
+              value={formData.nombre}
+              onChange={handleChange}
+              className="w-full bg-white/10 border border-white/30 rounded-2xl px-4 py-3.5 text-xs sm:text-sm text-black placeholder-black/60 font-semibold focus:outline-none focus:border-[#ff1a2e] backdrop-blur-md shadow-inner transition-all"
+            />
 
-            <div className="relative">
-              <input
-                type="email"
-                name="email"
-                required
-                placeholder="Correo electrónico"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full bg-white/10 border border-white/30 rounded-2xl px-4 py-3.5 text-xs sm:text-sm text-black placeholder-black/60 font-semibold focus:outline-none focus:border-[#ff1a2e] backdrop-blur-md shadow-inner transition-all"
-              />
-            </div>
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="Correo electrónico"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full bg-white/10 border border-white/30 rounded-2xl px-4 py-3.5 text-xs sm:text-sm text-black placeholder-black/60 font-semibold focus:outline-none focus:border-[#ff1a2e] backdrop-blur-md shadow-inner transition-all"
+            />
 
-            <div className="relative">
-              <input
-                type="text"
-                name="asunto"
-                required
-                placeholder="Asunto / Motivo de contacto"
-                value={formData.asunto}
-                onChange={handleChange}
-                className="w-full bg-white/10 border border-white/30 rounded-2xl px-4 py-3.5 text-xs sm:text-sm text-black placeholder-black/60 font-semibold focus:outline-none focus:border-[#ff1a2e] backdrop-blur-md shadow-inner transition-all"
-              />
-            </div>
+            <input
+              type="text"
+              name="asunto"
+              required
+              placeholder="Asunto / Motivo de contacto"
+              value={formData.asunto}
+              onChange={handleChange}
+              className="w-full bg-white/10 border border-white/30 rounded-2xl px-4 py-3.5 text-xs sm:text-sm text-black placeholder-black/60 font-semibold focus:outline-none focus:border-[#ff1a2e] backdrop-blur-md shadow-inner transition-all"
+            />
 
-            <div className="relative">
-              <textarea
-                name="mensaje"
-                required
-                rows="4"
-                placeholder="Escribe aquí tu mensaje..."
-                value={formData.mensaje}
-                onChange={handleChange}
-                className="w-full bg-white/10 border border-white/30 rounded-2xl px-4 py-3.5 text-xs sm:text-sm text-black placeholder-black/60 font-semibold focus:outline-none focus:border-[#ff1a2e] backdrop-blur-md shadow-inner transition-all resize-none"
-              />
-            </div>
+            <textarea
+              name="mensaje"
+              required
+              rows="4"
+              placeholder="Escribe aquí tu mensaje..."
+              value={formData.mensaje}
+              onChange={handleChange}
+              className="w-full bg-white/10 border border-white/30 rounded-2xl px-4 py-3.5 text-xs sm:text-sm text-black placeholder-black/60 font-semibold focus:outline-none focus:border-[#ff1a2e] backdrop-blur-md shadow-inner transition-all resize-none"
+            />
 
-            <div>
-              <button
-                type="submit"
-                className="w-full sm:w-auto bg-[#ff1a2e] hover:bg-[#e01527] text-white font-extrabold px-8 py-3.5 rounded-full text-xs uppercase tracking-widest transition-all shadow-xl cursor-pointer border border-white/30 backdrop-blur-md"
-              >
-                Enviar Mensaje
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="w-full sm:w-auto bg-[#ff1a2e] hover:bg-[#e01527] text-white font-extrabold px-8 py-3.5 rounded-full text-xs uppercase tracking-widest transition-all shadow-xl cursor-pointer border border-white/30 backdrop-blur-md flex items-center justify-center gap-2"
+            >
+              <span>Enviar Mensaje por WhatsApp</span>
+            </button>
           </form>
         </motion.div>
       </div>

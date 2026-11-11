@@ -2,8 +2,7 @@
 import Navbar from '../components/Navbar.jsx';
 import Hero from '../components/Hero.jsx';
 import SearchSection from '../components/SearchSection.jsx';
-import ItemSection from '../components/itemSection.jsx'; // <--- Coincide con la minúscula de tu archivo
-import ContactSection from '../components/ContactSection.jsx'; // <--- ¡Añadido!
+import ItemSection from '../components/itemSection.jsx';
 import Footer from '../components/Footer.jsx';
 import '../styles/global.css';
 ---
@@ -28,9 +27,6 @@ import '../styles/global.css';
     <Hero client:load />
     <SearchSection client:visible />
     <ItemSection client:visible />
-    
-    {/* NUESTRA NUEVA SECCIÓN DE CONTACTO */}
-    <ContactSection client:visible />
     
     <Footer client:idle />
   </body>
