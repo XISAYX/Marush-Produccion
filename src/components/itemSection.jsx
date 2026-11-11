@@ -88,9 +88,9 @@ const recorridosData = {
       "Te encuentras en la cabecera del municipio de Metztitlán, recuerda traer hidratación si eliges un recorrido.",
     prohibido:
       "Manipular, alimentar, retener o apropiarse de especies silvestres, derivados, elementos naturales y cualquier actividad que arriesgue o altere la integridad de los usuarios.",
-    tipoMedia: "imagen",
-    ilustracionImg: "/logo-marush.webp",
-    imagen: "/mockup-pelicano.webp",
+    tipoMedia: "video",
+    mediaSrc: "/cactus.webm",
+    ilustracionImg: "/mockup-pelicano.webp",
   },
 };
 
